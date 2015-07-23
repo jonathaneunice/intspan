@@ -1,0 +1,7 @@
+include MANIFEST.in
+include README
+include README.rst
+include pytest.ini
+include tox.ini
+recursive-include test *.py
+

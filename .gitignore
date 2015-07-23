@@ -1,0 +1,11 @@
+.hg*
+.tox/
+*/__pycache__/*
+.idea/*
+*.pyc
+.coverage
+build/
+dist/
+docs/_build/
+*.egg-info
+*.ipynb
