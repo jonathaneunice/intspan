@@ -4,15 +4,24 @@ import copy
 from itertools import groupby, count, chain
 import re
 
-__all__ = 'intspan spanlist intspanlist'.split()
+__all__ = 'intspan spanlist intspanlist TheRest'.split()
 
 _PY3 = sys.version_info[0] > 2
 if _PY3:
     basestring = str
 
 SPANRE = re.compile(r'^\s*(?P<start>-?\d+)\s*(-\s*(?P<stop>-?\d+))?\s*$')
+SPANRESTAR = re.compile(r'^\s*((?P<star>\*)|(?P<start>-?\d+)\s*(-\s*(?P<stop>-?\d+))?)\s*$')
 class ParseError(ValueError):
     pass
+
+class Rester(object):
+    def __repr__(self):
+        return 'TheRest'
+    def __str__(self):
+        return '*'
+TheRest = Rester()
+
 
 class intspan(set):
     def __init__(self, initial=None):
@@ -152,10 +161,10 @@ class intspan(set):
             m = SPANRE.search(chunk)
             if m:
                 start = int(m.group('start'))
-                if m.group('stop'):
-                    stop = int(m.group('stop'))
-                    return list(range(start, stop+1))
-                return [ start ]
+                if not m.group('stop'):
+                    return [start]
+                stop = int(m.group('stop'))
+                return list(range(start, stop+1))
             else:
                 raise ParseError("Can't parse chunk '{0}'".format(chunk))
 
@@ -213,6 +222,36 @@ class intspan(set):
 # by giving a universe of possible options. Or characters. The Ranger
 # package seems to do some of this http://pythonhosted.org/ranger/
 
+
+def _parse_range(datum):
+
+    def parse_chunk(chunk):
+        """
+        Parse each comma-separated chunk. Hyphens (-) can indicate ranges,
+        or negative numbers. Returns a list of specified values. NB Designed
+        to parse correct input correctly. Results of incorrect input are
+        undefined.
+        """
+        m = SPANRESTAR.search(chunk)
+        if m:
+            if m.group('star'):
+                return [TheRest]
+            start = int(m.group('start'))
+            if not m.group('stop'):
+                return [start]
+            stop = int(m.group('stop'))
+            return list(range(start, stop+1))
+        else:
+            raise ParseError("Can't parse chunk '{0}'".format(chunk))
+
+    if isinstance(datum, basestring):
+        result = []
+        for part in datum.split(','):
+            result.extend(parse_chunk(part))
+        return result
+    else:
+        return datum if hasattr(datum, '__iter__') else [ datum ]
+
 def spanlist(spec=None):
     """
     Given a string specification like the ones given to ``intspan``,
@@ -222,7 +261,7 @@ def spanlist(spec=None):
     """
     if spec is None or (isinstance(spec, basestring) and spec.strip() == ''):
         return []
-    rawitems = intspan._parse_range(spec)
+    rawitems = _parse_range(spec)
     seen = set()
     items = []
     for i in rawitems:
@@ -241,10 +280,35 @@ class intspanlist(list):
     one entry for each included integer may be broken.
     """
 
-    def __init__(self, initial=None):
+    def __init__(self, initial=None, universe=None):
         super(intspanlist, self).__init__()
         if initial:
             self.extend(initial)
+        if universe is not None:
+            try:
+                restIndex = self.index(TheRest)
+                remaining = sorted(intspan(universe) - set(self))
+                self[restIndex+1:restIndex+1] = remaining  # splice
+                self.pop(restIndex)
+            except ValueError:
+                pass
+
+    def therest_update(self, universe, inplace=True):
+        """
+        If the receiving ``intspanlist`` contains a ``TheRest`` marker,
+        replace it with the contents of the universe. Generally done
+        *in situ*, but if value of ``inplace`` kwarg false, returns
+        an edited copy.
+        """
+        toedit = self if inplace else self.copy()
+        try:
+            restIndex = toedit.index(TheRest)
+            remaining = sorted(intspan(universe) - set(toedit))
+            toedit[restIndex+1:restIndex+1] = remaining  # splice
+            toedit.pop(restIndex)
+        except ValueError:
+            pass
+        return toedit
 
     def copy(self):
         return copy.copy(self)
@@ -323,6 +387,19 @@ class intspanlist(list):
         else:
             return '{0}'.format(l[0])
 
+    @staticmethod
+    def noRestDiff(a,b):
+        """
+        Special difference that, in case difference cannot be computed
+        because of ``TypeError`` (indicating that a ``Rester`` object)
+        has been found, returns a difference indicating the spanned items
+        / group has ended.
+        """
+        try:
+            return a - b
+        except TypeError:
+            return 2 # anything more than 1
+
     def __repr__(self):
         """
         Return the representation.
@@ -334,10 +411,14 @@ class intspanlist(list):
         """
         Return the stringification.
         """
-        return ','.join(self._as_range_str(g) for _, g in groupby(self, key=lambda n, c=count(): n-next(c)))
+        groupkey = lambda n, c=count(): self.noRestDiff(n, next(c))
+        return ','.join(self._as_range_str(g) for _, g in groupby(self, key=groupkey))
+        # FIX THIS FOR * case
+
 
     def ranges(self):
         """
         Return a list of the set's contiguous (inclusive) ranges.
         """
-        return [ self._as_range(g) for _, g in groupby(self, key=lambda n, c=count(): n-next(c)) ]
+        groupkey = lambda n, c=count(): self.noRestDiff(n, next(c))
+        return [ self._as_range(g) for _, g in groupby(self, key=groupkey) ]

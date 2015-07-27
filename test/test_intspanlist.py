@@ -1,7 +1,7 @@
 
 import pytest
 from intspan import *
-from intspan import ParseError
+from intspan import ParseError, TheRest
 
 def test_basic():
     s = intspanlist()
@@ -137,6 +137,17 @@ def test_spanlist():
     assert spanlist('4,1-5,5') == [4,1,2,3,5]
     assert spanlist('4,1-5,5,5,1') == [4,1,2,3,5]
 
+def test_spanlist_rest():
+
+    assert spanlist('*') == [TheRest]
+    assert spanlist('1,*') == [1,TheRest]
+    assert spanlist('*,1') == [TheRest, 1]
+    assert spanlist('33,*,1,3,4') == [33,TheRest,1,3,4]
+    assert spanlist('33,1,3,33,4,*') == [33,1,3,4,TheRest]
+    assert spanlist('4,1-5,*') == [4,1,2,3,5,TheRest]
+    assert spanlist('4,*,1-5') == [4,TheRest,1,2,3,5]
+    assert spanlist('4,*,1-5,5,*') == [4,TheRest,1,2,3,5]
+
 def test_constructor():
     assert intspanlist() == []
     assert intspanlist(1) == [1]
@@ -163,7 +174,73 @@ def test_repr():
     assert repr(intspanlist('4,1-5,5')) == "intspanlist('4,1-3,5')"
     assert repr(intspanlist('4,1-5,5,5,1')) == "intspanlist('4,1-3,5')"
 
+def test_repr_star():
+    # first without resolving TheRest
+    assert repr(intspanlist('*')) == "intspanlist('*')"
+    assert repr(intspanlist('1,*')) == "intspanlist('1,*')"
+    assert repr(intspanlist('*,1')) == "intspanlist('*,1')"
+    assert repr(intspanlist('33,1,*,3,4')) == "intspanlist('33,1,*,3-4')"
+    assert repr(intspanlist('33,1,3,*,33,*,4')) == "intspanlist('33,1,3,*,4')"
+
+def test_repr_star_resolved():
+    assert repr(intspanlist('*')) == "intspanlist('*')"
+    assert repr(intspanlist('1,*')) == "intspanlist('1,*')"
+    assert repr(intspanlist('*,1')) == "intspanlist('*,1')"
+    assert repr(intspanlist('33,1,*,3,4')) == "intspanlist('33,1,*,3-4')"
+    assert repr(intspanlist('33,1,3,*,33,*,4')) == "intspanlist('33,1,3,*,4')"
+
 def test_ranges():
     assert intspanlist('').ranges() == []
     assert intspanlist('1-14').ranges() == [(1, 14)]
-    assert intspanlist('9,4,1-3,5-8,10-14').ranges() == [(9, 9), (4, 4), (1, 3), (5, 8), (10, 14)]
+    assert intspanlist('9,4,1-3,5-8,10-14').ranges() == \
+                [(9, 9), (4, 4), (1, 3), (5, 8), (10, 14)]
+
+def test_ranges_star():
+    assert intspanlist('*').ranges() == [(TheRest, TheRest)]
+    assert intspanlist('1-14, *').ranges() == [(1, 14), (TheRest, TheRest)]
+    assert intspanlist('*,1-14').ranges() == [(TheRest, TheRest), (1, 14)]
+    assert intspanlist('9,4,1-3,*,5-8,10-14').ranges() == \
+        [(9, 9), (4, 4), (1, 3), (TheRest, TheRest), (5, 8), (10, 14)]
+
+def test_ranges_resolved():
+    assert intspanlist('*', '1-4') == [1, 2, 3, 4]
+    assert intspanlist('1-4,*', '1-8') == [1,2,3,4,5,6,7,8]
+    assert intspanlist('*,1-4', '1-8') == [5,6,7,8,1,2,3,4]
+    assert intspanlist('5,*,1-4', '1-8') == [5,6,7,8,1,2,3,4]
+    assert intspanlist('6,*,1-4', '1-8') == [6,5,7,8,1,2,3,4]
+    assert intspanlist('*,6,*,1-4', '1-8') == [5,7,8,6,1,2,3,4]
+
+def test_star_doc_examples():
+    assert intspanlist('1-4,*,8','1-9') == intspanlist('1-7,9,8') == \
+                                            [1,2,3,4,5,6,7,9,8]
+
+    assert repr(intspanlist('1-4,*,8')) == "intspanlist('1-4,*,8')"
+    assert repr(intspanlist('1-4,*,8','1-9')) == "intspanlist('1-7,9,8')"
+
+    i = intspanlist('1-4,*,8')
+    i.therest_update('1-9')
+    assert repr(i) == "intspanlist('1-7,9,8')"
+
+def test_therest_update():
+    i = intspanlist('1-5,*')
+    assert i == [1,2,3,4,5,TheRest]
+
+    i2 = i.therest_update('1-7', inplace=False)
+    assert i2 == [1,2,3,4,5,6,7]
+    assert i2 is not i
+
+    i.therest_update('1-7')
+    assert i == [1,2,3,4,5,6,7]
+    assert i == i2
+    assert i is not i2
+
+    j = intspanlist('1,*,5')
+    assert j == [1,TheRest,5]
+
+    j2 = j.therest_update('1-5', inplace=False)
+    assert j2 == [1,2,3,4,5]
+    assert j2 is not j
+
+    j.therest_update('1-5')
+    assert j == [1,2,3,4,5]
+    assert j is not j2

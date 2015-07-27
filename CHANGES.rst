@@ -3,6 +3,9 @@
 Change Log
 ==========
 
+ *  Version 1.3 adds ``*`` notation for abstract "the rest of the items"
+    in an ``intspanlist``.
+    
  *  Version 1.2.6 inaugurates continuous integration with Travis CI.
 
  *  Version 1.2 adds an experimental ``spanlist`` constructor and
@@ -23,4 +26,3 @@ Change Log
  *  Version 0.7 fixed parsing of spans including negative numbers, and
     added the ``ranges()`` method. As of 0.71, the ``from_ranges()``
     constructor appeared.
-

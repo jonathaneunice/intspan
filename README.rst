@@ -77,7 +77,7 @@ contiguous ranges::
 
 Note that these endpoints represent
 `closed intervals <http://en.wikipedia.org/wiki/Interval_(mathematics)>`_,
-rather than the half-open intervals commonly used wiht Python's ``range()``.
+rather than the half-open intervals commonly used with Python's ``range()``.
 If you combine ``intspan`` ranges with Python generators, you'll
 have to increment the stop value by one yourself to create the suitable
 "half-open interval."
@@ -149,6 +149,39 @@ entered::
 This is an equivalent, though lower-level and more verbose, representation
 that more explicitly maps to the gaps in their ranges.
 
+As a final trick, ``intspanlist`` instances can contain a special value,
+rendered as an asterisk (``*``), meaning "the rest of the list." Under
+the covers, this is converted into the singleton value ``TheRest``.
+
+    >>> intspanlist('1-4,*,8')
+    intspanlist('1-4,*,8')
+
+``intspanlist`` objects may be created with an optional second parameter
+which provides "the universe of all items" against which "the rest" may
+be evaluated. For example::
+
+    >>> intspanlist('1-4,*,8','1-9')
+    intspanlist('1-7,9,8')
+
+In other words, whatever items are "left over" from the universe set are
+included wherever the asterisk appears. Like the rest of ``intspan`` and
+``intspanlist`` constructors, duplicates are inherently removed. It is not
+necessary however, to "resolve" the value of the "and the rest" marker
+immediately.
+If not universe is given, you may later update the ``intspanlist`` with
+its missing values::
+
+    >>> i = intspanlist('1-4,*,8')
+    >>> i.therest_update('1-9')
+    intspanlist('1-7,9,8')
+
+If you don't wish to modify the original list (leaving its abstract
+marker in place), a copy may be created by setting the ``inplace=False``
+kwarg.
+
+The abstract "and the rest" markers are intended to make ``intspanlist``
+more convenient for specifying complex partial orderings.
+
 **Note** Whereas ``intspan`` attempts to faithfully implement all the
 methods of a Python ``set`` , ``intspanlist`` is a thin shim over ``list``.
 It works fine as an immutable type, but modifications are more problematic.
@@ -206,6 +239,9 @@ specification that ``intspan`` does, but they have other virtues:
 Notes
 =====
 
+ *  Version 1.3 adds ``*`` notation for abstract "the rest of the items"
+    in an ``intspanlist``.
+
  *  Version 1.2.6 inaugurates continuous integration with Travis CI.
 
  *  Version 1.2 adds an experimental ``spanlist`` constructor and
@@ -223,6 +259,9 @@ Notes
     facilities that used to take only one item into ones that take multiples,
     including arguments that are technically string specifications rather than
     proper ``intspan`` objects.
+
+ *  A version of ``intspanlist`` that does not discard duplicates is under
+    consideration.
 
  *  String representation and ``ranges()`` method
     based on Jeff Mercado's concise answer to `this
@@ -242,6 +281,13 @@ Notes
  *  The author, `Jonathan Eunice <mailto:jonathan.eunice@gmail.com>`_ or
     `@jeunice on Twitter <http://twitter.com/jeunice>`_
     welcomes your comments and suggestions.
+
+ *  If you find ``intspan`` useful, consider buying me a pint and a nice
+    salty pretzel.::
+
+.. image:: https://img.shields.io/gratipay/jeunice.svg
+    :target: https://www.gittip.com/jeunice/
+
 
 Installation
 ============
