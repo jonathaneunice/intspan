@@ -3,12 +3,14 @@ import pytest
 from intspan import *
 from intspan import ParseError
 
+
 def test_basic():
     s = intspan()
-    tests = ['', '1','1-2', '1-3,9-10', '1-3,14,29,92-97']
+    tests = ['', '1', '1-2', '1-3,9-10', '1-3,14,29,92-97']
     for t in tests:
         s = intspan(t)
         assert str(s) == t
+
 
 def test_parse_error():
     with pytest.raises(ParseError):
@@ -16,10 +18,12 @@ def test_parse_error():
     with pytest.raises(ParseError):
         s = intspan('1-4,5-')
 
+
 def test_negatives():
     assert list(intspan('-2')) == [-2]
     assert list(intspan('-2-1')) == [-2, -1, 0, 1]
     assert list(intspan('-2--1')) == [-2, -1]
+
 
 def test_contains():
     s = intspan()
@@ -33,9 +37,11 @@ def test_contains():
     assert 0 not in t
     assert 2 not in t
 
+
 def test_equals():
     s = intspan('1,3,5,7,9')
-    assert s == set([1,3,5,7,9])
+    assert s == set([1, 3, 5, 7, 9])
+
 
 def test_strict_super_or_subset():
     s = intspan('1,3,5,7,9')
@@ -49,6 +55,7 @@ def test_strict_super_or_subset():
     assert not s < u
     assert not s > u
 
+
 def test_isdisjoint():
     s = intspan('1,3,5,7,9')
     t = intspan('33-44')
@@ -57,6 +64,7 @@ def test_isdisjoint():
     assert not s.isdisjoint(u)
     assert t.isdisjoint(u)
 
+
 def test_copy():
     t = intspan('1,10')
     tt = t.copy()
@@ -64,10 +72,12 @@ def test_copy():
     assert t == tt
     assert t is not tt
 
+
 def test_clear():
     s = intspan('1,2,3,5,8,13,21')
     s.clear()
     assert s == intspan()
+
 
 def test_len():
     s = intspan('1,2,3,5,8,13,21')
@@ -77,16 +87,20 @@ def test_len():
     s.clear()
     assert len(s) == 0
 
+
 def test_merge():
-    assert str(intspan('1-4,5')) ==  '1-5'
+    assert str(intspan('1-4,5')) == '1-5'
+
 
 def test_out_of_order():
     assert str(intspan('1,0,99,4,7,9,98')) == '0-1,4,7,9,98-99'
+
 
 def test_discard():
     s = intspan('1-3,14,29,92-97')
     s.discard('2,13,92')
     assert str(s) == '1,3,14,29,93-97'
+
 
 def test_remove():
     s = intspan('1-3,14,29,92-97')
@@ -94,6 +108,7 @@ def test_remove():
     assert str(s) == '1,3,14,29,93-97'
     with pytest.raises(KeyError):
         s.remove(1000)
+
 
 def test_add():
     s = intspan('1-2')
@@ -106,11 +121,13 @@ def test_add():
     s.add('14')
     assert str(s) == '1-3,14,29,92-97'
 
+
 def test_iteration():
     s = intspan('92,97,96,95,0,94')
-    assert [ item for item in s ] == [0, 92, 94, 95, 96, 97]
+    assert [item for item in s] == [0, 92, 94, 95, 96, 97]
     assert list(s) == [0, 92, 94, 95, 96, 97]
     assert set(s) == set([0, 92, 94, 95, 96, 97])
+
 
 def test_issubset():
     s = intspan('92,97,96,95,0,94')
@@ -118,34 +135,37 @@ def test_issubset():
     assert s.issubset(range(98))
     assert s.issubset(range(101))
     assert s.issubset('0, 92-100')
-    assert s.issubset( [0] + list(range(92,101)) )
+    assert s.issubset([0] + list(range(92, 101)))
     assert s.issubset(intspan('92,97,96,95,0,94'))
     assert s.issubset([0, 92, 94, 95, 96, 97])
     assert not s.issubset('0-10')
     assert not s.issubset(range(20))
     assert not s.issubset(range(95))
 
+
 def test_issuperset():
     s = intspan('0-3,7')
     assert s.issuperset('0-2')
-    assert s.issuperset([0,1,3])
+    assert s.issuperset([0, 1, 3])
     assert not s.issuperset(range(6))
     assert not s.issuperset('0-6')
 
     assert s >= intspan('0-2')
-    assert s >= intspan([0,1,3])
+    assert s >= intspan([0, 1, 3])
     assert not s >= range(6)
     assert not s >= intspan('0-6')
+
 
 def test_union():
     s = intspan('0-3,7')
     assert s.union('0-2') == s
     assert list(s.union('0-2')) == [0, 1, 2, 3, 7]
-    assert list(s.union([99,101])) ==  [0, 1, 2, 3, 7, 99, 101]
-    assert s.union([99,101]) == intspan('0-3,7,99,101')
+    assert list(s.union([99, 101])) == [0, 1, 2, 3, 7, 99, 101]
+    assert s.union([99, 101]) == intspan('0-3,7,99,101')
 
     assert s | intspan('0-2') == s.union('0-2')
-    assert s | [99,101] == s.union('99,101')
+    assert s | [99, 101] == s.union('99,101')
+
 
 def test_intersection():
     s = intspan('1-8')
@@ -159,6 +179,7 @@ def test_intersection():
     assert t & u == t.intersection(u)
     assert s & u == s.intersection(u)
 
+
 def test_difference():
     s = intspan('1-8')
     t = intspan('2-5')
@@ -167,6 +188,7 @@ def test_difference():
 
     assert s - t == s.difference(t)
     assert t - s == t.difference(s)
+
 
 def test_symmetric_difference():
     s = intspan('1-8')
@@ -178,6 +200,7 @@ def test_symmetric_difference():
     assert s ^ t == s.symmetric_difference(t)
     assert t ^ s == t.symmetric_difference(s)
     assert t ^ t == t.symmetric_difference(t)
+
 
 def test_augmented_assignments():
     s = intspan('50-60')
@@ -200,6 +223,7 @@ def test_augmented_assignments():
     t.symmetric_difference_update('10,99')
     assert t == intspan('11-15,50-55,99')
 
+
 def test_pop():
     s = intspan('100-110')
     assert s.pop() == 100
@@ -216,21 +240,25 @@ def test_pop():
     with pytest.raises(KeyError):
         s.pop()
 
+
 def test_ranges():
     assert intspan().ranges() == []
-    assert intspan('2').ranges()   == [ (2,2) ]
-    assert intspan('1-3').ranges() == [ (1,3) ]
-    assert intspan('1-3,5-6').ranges() == [ (1,3), (5,6) ]
+    assert intspan('2').ranges() == [(2, 2)]
+    assert intspan('1-3').ranges() == [(1, 3)]
+    assert intspan('1-3,5-6').ranges() == [(1, 3), (5, 6)]
+
 
 def test_from_range():
-    assert intspan.from_range(1,3) == intspan('1-3')
-    assert intspan.from_range(2,44) == intspan('2-44')
+    assert intspan.from_range(1, 3) == intspan('1-3')
+    assert intspan.from_range(2, 44) == intspan('2-44')
+
 
 def test_from_ranges():
-    assert intspan.from_ranges([ (1,3), (5,6) ]) == intspan('1-3,5-6')
-    assert intspan.from_ranges([ (1,3) ]) == intspan('1-3')
-    assert intspan.from_ranges([ (2,2) ]) == intspan('2')
+    assert intspan.from_ranges([(1, 3), (5, 6)]) == intspan('1-3,5-6')
+    assert intspan.from_ranges([(1, 3)]) == intspan('1-3')
+    assert intspan.from_ranges([(2, 2)]) == intspan('2')
     assert intspan.from_ranges([]) == intspan()
+
 
 def test_complement():
     s = intspan('1,3,5-9')
@@ -249,6 +277,7 @@ def test_complement():
     with pytest.raises(ValueError):
         intspan().complement()
         # cannot get the complement of an empty set
+
 
 def test_repr_and_str():
     s = intspan('10-20,50-55')

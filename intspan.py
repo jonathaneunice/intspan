@@ -11,19 +11,58 @@ if _PY3:
     basestring = str
 
 SPANRE = re.compile(r'^\s*(?P<start>-?\d+)\s*(-\s*(?P<stop>-?\d+))?\s*$')
-SPANRESTAR = re.compile(r'^\s*((?P<star>\*)|(?P<start>-?\d+)\s*(-\s*(?P<stop>-?\d+))?)\s*$')
+SPANRESTAR = re.compile(
+    r'^\s*((?P<star>\*)|(?P<start>-?\d+)\s*(-\s*(?P<stop>-?\d+))?)\s*$')
+
+
 class ParseError(ValueError):
     pass
 
+
 class Rester(object):
+
     def __repr__(self):
         return 'TheRest'
+
     def __str__(self):
         return '*'
 TheRest = Rester()
 
 
+def _as_range(iterable):
+    """
+    Return a tuple representing the bounds of the range.
+    """
+    l = list(iterable)
+    return (l[0], l[-1])
+
+
+def _as_range_str(iterable):
+    """
+    Return a string representing the range as a string span.
+    """
+    l = list(iterable)
+    if len(l) > 1:
+        return '{0}-{1}'.format(l[0], l[-1])
+    else:
+        return '{0}'.format(l[0])
+
+
+def _noRestDiff(a, b):
+    """
+    Special difference that, in case difference cannot be computed
+    because of ``TypeError`` (indicating that a ``Rester`` object)
+    has been found), returns a difference indicating the spanned items
+    / group has ended.
+    """
+    try:
+        return a - b
+    except TypeError:
+        return 2  # anything more than 1
+
+
 class intspan(set):
+
     def __init__(self, initial=None):
         super(intspan, self).__init__()
         if initial:
@@ -45,7 +84,8 @@ class intspan(set):
         return self
 
     def symmetric_difference_update(self, items):
-        super(intspan, self).symmetric_difference_update(self._parse_range(items))
+        super(intspan, self).symmetric_difference_update(
+            self._parse_range(items))
         return self
 
     def discard(self, items):
@@ -136,7 +176,7 @@ class intspan(set):
         inclusive. I.e., closed range, not the more typical Python
         half-open range.
         """
-        return cls(range(low, high+1))
+        return cls(range(low, high + 1))
 
     @classmethod
     def from_ranges(cls, ranges):
@@ -146,7 +186,7 @@ class intspan(set):
         inclusive, closed ranges, not the more typical Python
         half-open ranges.
         """
-        return cls( chain( *(range(r[0], r[1]+1) for r in ranges) ) )
+        return cls(chain(*(range(r[0], r[1] + 1) for r in ranges)))
 
     @staticmethod
     def _parse_range(datum):
@@ -164,7 +204,7 @@ class intspan(set):
                 if not m.group('stop'):
                     return [start]
                 stop = int(m.group('stop'))
-                return list(range(start, stop+1))
+                return list(range(start, stop + 1))
             else:
                 raise ParseError("Can't parse chunk '{0}'".format(chunk))
 
@@ -174,23 +214,7 @@ class intspan(set):
                 result.extend(parse_chunk(part))
             return result
         else:
-            return datum if hasattr(datum, '__iter__') else [ datum ]
-
-    @staticmethod
-    def _as_range(iterable):
-        l = list(iterable)
-        if len(l) > 1:
-            return (l[0], l[-1])
-        else:
-            return (l[0], l[0])
-
-    @staticmethod
-    def _as_range_str(iterable):
-        l = list(iterable)
-        if len(l) > 1:
-            return '{0}-{1}'.format(l[0], l[-1])
-        else:
-            return '{0}'.format(l[0])
+            return datum if hasattr(datum, '__iter__') else [datum]
 
     def __repr__(self):
         """
@@ -204,14 +228,16 @@ class intspan(set):
         Return the stringification.
         """
         items = sorted(self)
-        return ','.join(self._as_range_str(g) for _, g in groupby(items, key=lambda n, c=count(): n-next(c)))
+        gk = lambda n, c=count(): n - next(c)
+        return ','.join(_as_range_str(g) for _, g in groupby(items, key=gk))
 
     def ranges(self):
         """
         Return a list of the set's contiguous (inclusive) ranges.
         """
         items = sorted(self)
-        return [ self._as_range(g) for _, g in groupby(items, key=lambda n, c=count(): n-next(c)) ]
+        gk = lambda n, c=count(): n - next(c)
+        return [_as_range(g) for _, g in groupby(items, key=gk)]
 
     # see Jeff Mercado's answer to http://codereview.stackexchange.com/questions/5196/grouping-consecutive-numbers-into-ranges-in-python-3-2
     # see also: http://stackoverflow.com/questions/2927213/python-finding-n-consecutive-numbers-in-a-list
@@ -240,7 +266,7 @@ def _parse_range(datum):
             if not m.group('stop'):
                 return [start]
             stop = int(m.group('stop'))
-            return list(range(start, stop+1))
+            return list(range(start, stop + 1))
         else:
             raise ParseError("Can't parse chunk '{0}'".format(chunk))
 
@@ -250,7 +276,8 @@ def _parse_range(datum):
             result.extend(parse_chunk(part))
         return result
     else:
-        return datum if hasattr(datum, '__iter__') else [ datum ]
+        return datum if hasattr(datum, '__iter__') else [datum]
+
 
 def spanlist(spec=None):
     """
@@ -271,10 +298,13 @@ def spanlist(spec=None):
         seen.add(i)
     return items
 
+
 class intspanlist(list):
+
     """
     An ordered version of ``intspan``. Is to ``list`` what ``intspan``
-    is to ``set``. Partially implemented. Works fine as an immutable
+    is to ``set``, except that it is somewhat set-like, in that items
+    are not intended to be repeated. Works fine as an immutable
     data structure. Still some issues if one mutates an instance. Not
     terrible problems, but the set-like nature where there is only
     one entry for each included integer may be broken.
@@ -288,7 +318,7 @@ class intspanlist(list):
             try:
                 restIndex = self.index(TheRest)
                 remaining = sorted(intspan(universe) - set(self))
-                self[restIndex+1:restIndex+1] = remaining  # splice
+                self[restIndex + 1:restIndex + 1] = remaining  # splice
                 self.pop(restIndex)
             except ValueError:
                 pass
@@ -304,7 +334,7 @@ class intspanlist(list):
         try:
             restIndex = toedit.index(TheRest)
             remaining = sorted(intspan(universe) - set(toedit))
-            toedit[restIndex+1:restIndex+1] = remaining  # splice
+            toedit[restIndex + 1:restIndex + 1] = remaining  # splice
             toedit.pop(restIndex)
         except ValueError:
             pass
@@ -358,7 +388,7 @@ class intspanlist(list):
         inclusive. I.e., closed range, not the more typical Python
         half-open range.
         """
-        return cls(range(low, high+1))
+        return cls(range(low, high + 1))
 
     @classmethod
     def from_ranges(cls, ranges):
@@ -368,37 +398,7 @@ class intspanlist(list):
         inclusive, closed ranges, not the more typical Python
         half-open ranges.
         """
-        return cls( chain( *(range(r[0], r[1]+1) for r in ranges) ) )
-
-
-    @staticmethod
-    def _as_range(iterable):
-        l = list(iterable)
-        if len(l) > 1:
-            return (l[0], l[-1])
-        else:
-            return (l[0], l[0])
-
-    @staticmethod
-    def _as_range_str(iterable):
-        l = list(iterable)
-        if len(l) > 1:
-            return '{0}-{1}'.format(l[0], l[-1])
-        else:
-            return '{0}'.format(l[0])
-
-    @staticmethod
-    def noRestDiff(a,b):
-        """
-        Special difference that, in case difference cannot be computed
-        because of ``TypeError`` (indicating that a ``Rester`` object)
-        has been found, returns a difference indicating the spanned items
-        / group has ended.
-        """
-        try:
-            return a - b
-        except TypeError:
-            return 2 # anything more than 1
+        return cls(chain(*(range(r[0], r[1] + 1) for r in ranges)))
 
     def __repr__(self):
         """
@@ -411,14 +411,12 @@ class intspanlist(list):
         """
         Return the stringification.
         """
-        groupkey = lambda n, c=count(): self.noRestDiff(n, next(c))
-        return ','.join(self._as_range_str(g) for _, g in groupby(self, key=groupkey))
-        # FIX THIS FOR * case
-
+        gk = lambda n, c=count(): _noRestDiff(n, next(c))
+        return ','.join(_as_range_str(g) for _, g in groupby(self, key=gk))
 
     def ranges(self):
         """
         Return a list of the set's contiguous (inclusive) ranges.
         """
-        groupkey = lambda n, c=count(): self.noRestDiff(n, next(c))
-        return [ self._as_range(g) for _, g in groupby(self, key=groupkey) ]
+        gk = lambda n, c=count(): _noRestDiff(n, next(c))
+        return [_as_range(g) for _, g in groupby(self, key=gk)]
