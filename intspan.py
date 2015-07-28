@@ -56,7 +56,9 @@ def _parse_range(datum):
     if isinstance(datum, basestring):
         result = []
         for part in datum.split(','):
-            result.extend(parse_chunk(part))
+            chunk = part.strip()
+            if chunk:
+                result.extend(parse_chunk(chunk))
         return result
     else:
         return datum if hasattr(datum, '__iter__') else [datum]

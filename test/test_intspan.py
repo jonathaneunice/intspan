@@ -19,6 +19,15 @@ def test_parse_error():
         s = intspan('1-4,5-')
 
 
+def test_spaces():
+    assert list(intspan('  ')) == []
+    assert list(intspan('     1')) == [1]
+    assert list(intspan('1, 4,  4 , 9')) == [1, 4, 9]
+    assert list(intspan('1, 4, 4 , 9')) == [1, 4, 9]
+    assert list(intspan('1, 4, 4 , 9')) == [1, 4, 9]
+    assert list(intspan('   1, \n4,\n 4 , 9')) == [1, 4, 9]
+
+
 def test_negatives():
     assert list(intspan('-2')) == [-2]
     assert list(intspan('-2-1')) == [-2, -1, 0, 1]
