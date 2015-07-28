@@ -29,6 +29,59 @@ class Rester(object):
 TheRest = Rester()
 
 
+def _parse_range(datum):
+    """
+    Parser for intspan and intspan list.
+    """
+
+    def parse_chunk(chunk):
+        """
+        Parse each comma-separated chunk. Hyphens (-) can indicate ranges,
+        or negative numbers. Returns a list of specified values. NB Designed
+        to parse correct input correctly. Results of incorrect input are
+        undefined.
+        """
+        m = SPANRESTAR.search(chunk)
+        if m:
+            if m.group('star'):
+                return [TheRest]
+            start = int(m.group('start'))
+            if not m.group('stop'):
+                return [start]
+            stop = int(m.group('stop'))
+            return list(range(start, stop + 1))
+        else:
+            raise ParseError("Can't parse chunk '{0}'".format(chunk))
+
+    if isinstance(datum, basestring):
+        result = []
+        for part in datum.split(','):
+            result.extend(parse_chunk(part))
+        return result
+    else:
+        return datum if hasattr(datum, '__iter__') else [datum]
+
+
+def spanlist(spec=None, chunkre=SPANRESTAR):
+    """
+    Given a string specification like the ones given to ``intspan``,
+    return a list of the included items, in the same item given. Thus,
+    ``spanlist("3,1-4")`` yields ``[3, 1, 2, 4]``. Experimental partial
+    implementation of ability to have ordered intspans.
+    """
+    if spec is None or (isinstance(spec, basestring) and spec.strip() == ''):
+        return []
+    rawitems = _parse_range(spec)
+    seen = set()
+    items = []
+    for i in rawitems:
+        if i in seen:
+            continue
+        items.append(i)
+        seen.add(i)
+    return items
+
+
 def _as_range(iterable):
     """
     Return a tuple representing the bounds of the range.
@@ -72,51 +125,51 @@ class intspan(set):
         return copy.copy(self)
 
     def update(self, items):
-        super(intspan, self).update(self._parse_range(items))
+        super(intspan, self).update(_parse_range(items))
         return self
 
     def intersection_update(self, items):
-        super(intspan, self).intersection_update(self._parse_range(items))
+        super(intspan, self).intersection_update(_parse_range(items))
         return self
 
     def difference_update(self, items):
-        super(intspan, self).difference_update(self._parse_range(items))
+        super(intspan, self).difference_update(_parse_range(items))
         return self
 
     def symmetric_difference_update(self, items):
         super(intspan, self).symmetric_difference_update(
-            self._parse_range(items))
+            _parse_range(items))
         return self
 
     def discard(self, items):
-        for item in self._parse_range(items):
+        for item in _parse_range(items):
             super(intspan, self).discard(item)
 
     def remove(self, items):
-        for item in self._parse_range(items):
+        for item in _parse_range(items):
             super(intspan, self).remove(item)
 
     def add(self, items):
-        for item in self._parse_range(items):
+        for item in _parse_range(items):
             super(intspan, self).add(item)
 
     def issubset(self, items):
-        return super(intspan, self).issubset(self._parse_range(items))
+        return super(intspan, self).issubset(_parse_range(items))
 
     def issuperset(self, items):
-        return super(intspan, self).issuperset(self._parse_range(items))
+        return super(intspan, self).issuperset(_parse_range(items))
 
     def union(self, items):
-        return intspan(super(intspan, self).union(self._parse_range(items)))
+        return intspan(super(intspan, self).union(_parse_range(items)))
 
     def intersection(self, items):
-        return intspan(super(intspan, self).intersection(self._parse_range(items)))
+        return intspan(super(intspan, self).intersection(_parse_range(items)))
 
     def difference(self, items):
-        return intspan(super(intspan, self).difference(self._parse_range(items)))
+        return intspan(super(intspan, self).difference(_parse_range(items)))
 
     def symmetric_difference(self, items):
-        return intspan(super(intspan, self).symmetric_difference(self._parse_range(items)))
+        return intspan(super(intspan, self).symmetric_difference(_parse_range(items)))
 
     __le__   = issubset
     __ge__   = issuperset
@@ -130,13 +183,13 @@ class intspan(set):
     __ixor__ = symmetric_difference_update
 
     def __eq__(self, items):
-        return super(intspan, self).__eq__(self._parse_range(items))
+        return super(intspan, self).__eq__(_parse_range(items))
 
     def __lt__(self, items):
-        return super(intspan, self).__lt__(self._parse_range(items))
+        return super(intspan, self).__lt__(_parse_range(items))
 
     def __gt__(self, items):
-        return super(intspan, self).__gt__(self._parse_range(items))
+        return super(intspan, self).__gt__(_parse_range(items))
 
     def __iter__(self):
         """
@@ -188,34 +241,6 @@ class intspan(set):
         """
         return cls(chain(*(range(r[0], r[1] + 1) for r in ranges)))
 
-    @staticmethod
-    def _parse_range(datum):
-
-        def parse_chunk(chunk):
-            """
-            Parse each comma-separated chunk. Hyphens (-) can indicate ranges,
-            or negative numbers. Returns a list of specified values. NB Designed
-            to parse correct input correctly. Results of incorrect input are
-            undefined.
-            """
-            m = SPANRE.search(chunk)
-            if m:
-                start = int(m.group('start'))
-                if not m.group('stop'):
-                    return [start]
-                stop = int(m.group('stop'))
-                return list(range(start, stop + 1))
-            else:
-                raise ParseError("Can't parse chunk '{0}'".format(chunk))
-
-        if isinstance(datum, basestring):
-            result = []
-            for part in datum.split(','):
-                result.extend(parse_chunk(part))
-            return result
-        else:
-            return datum if hasattr(datum, '__iter__') else [datum]
-
     def __repr__(self):
         """
         Return the representation.
@@ -247,56 +272,6 @@ class intspan(set):
 # spansets of things other than integers. For example, enumerateds defined
 # by giving a universe of possible options. Or characters. The Ranger
 # package seems to do some of this http://pythonhosted.org/ranger/
-
-
-def _parse_range(datum):
-
-    def parse_chunk(chunk):
-        """
-        Parse each comma-separated chunk. Hyphens (-) can indicate ranges,
-        or negative numbers. Returns a list of specified values. NB Designed
-        to parse correct input correctly. Results of incorrect input are
-        undefined.
-        """
-        m = SPANRESTAR.search(chunk)
-        if m:
-            if m.group('star'):
-                return [TheRest]
-            start = int(m.group('start'))
-            if not m.group('stop'):
-                return [start]
-            stop = int(m.group('stop'))
-            return list(range(start, stop + 1))
-        else:
-            raise ParseError("Can't parse chunk '{0}'".format(chunk))
-
-    if isinstance(datum, basestring):
-        result = []
-        for part in datum.split(','):
-            result.extend(parse_chunk(part))
-        return result
-    else:
-        return datum if hasattr(datum, '__iter__') else [datum]
-
-
-def spanlist(spec=None):
-    """
-    Given a string specification like the ones given to ``intspan``,
-    return a list of the included items, in the same item given. Thus,
-    ``spanlist("3,1-4")`` yields ``[3, 1, 2, 4]``. Experimental partial
-    implementation of ability to have ordered intspans.
-    """
-    if spec is None or (isinstance(spec, basestring) and spec.strip() == ''):
-        return []
-    rawitems = _parse_range(spec)
-    seen = set()
-    items = []
-    for i in rawitems:
-        if i in seen:
-            continue
-        items.append(i)
-        seen.add(i)
-    return items
 
 
 class intspanlist(list):

@@ -5,7 +5,7 @@ Change Log
 
  *  Version 1.3 adds ``*`` notation for abstract "the rest of the items"
     in an ``intspanlist``.
-    
+
  *  Version 1.2.6 inaugurates continuous integration with Travis CI.
 
  *  Version 1.2 adds an experimental ``spanlist`` constructor and

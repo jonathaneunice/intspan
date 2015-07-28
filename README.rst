@@ -111,10 +111,10 @@ You can use the ``difference`` method or ``-`` operator
 to find the complement with respect to an arbitrary set, rather than just
 an expected contiguous range.
 
-Experimental
-============
+intspanlist
+===========
 
-As of version 1.2, an experimental function ``spanlist`` is provided. It
+As of version 1.2, a new function ``spanlist`` is provided. It
 returns a list from the same kind of specification string ``intspan`` does,
 but ordered as given rather than fully sorted. A corresponding
 ``intspanlist`` subclasses ``list`` in
@@ -129,16 +129,19 @@ the same way that ``intspan`` subclasses ``set``. ::
     >>> spanlist('4,1-5,5')
     [4, 1, 2, 3, 5]
 
-So ``spanlist`` the function creates an array, whereas ``intspanlist``
+So ``spanlist`` the function creates a ``list``, whereas ``intspanlist``
 creates a similar object--but one that has a more sophisticated representation
-and more specific update methods.
+and more specific update methods. Both of them have somewhat set-like behavior,
+in that they seek to not have excess duplication of members.
 
 The intended use for this strictly-ordered version of ``intspan`` is
-to help users and developers specify an ordering of elements. For example,
+to specify an ordering of elements. For example,
 a program might have 20 items, 1-20. If you wanted to process item 7,
 then item 3, then "all the rest," ``intspanlist('7,3,1-20')``
 would be a convenient way to specify this. You could loop over
-that object in the desired order.
+that object in the desired order. (See below for a different formulation,
+``intspanlist('7,3,*')``, in which the ``*`` is a symbolic "all the rest"
+marker, and the universe set can be specified either immediately or later.)
 
 Note that ``intspanlist`` objects do not necessarily display as they are
 entered::
@@ -146,30 +149,53 @@ entered::
     >>> intspanlist('7,3,1-20')
     intspanlist('7,3,1-2,4-6,8-20')
 
-This is an equivalent, though lower-level and more verbose, representation
-that more explicitly maps to the gaps in their ranges.
+This is an equivalent representation--though lower-level, more explicit, and
+more verbose.
+
+Many other ``list`` methods are available to ``intspanlist``, especially
+including iteration. Note however that while ``intspan`` attempts to
+faithfully implement the complete methods of a Python ``set`` ,
+``intspanlist`` is a thiner shim over ``list``. It works well as an
+immutable type, but modifications such as ``pop``, ``insert``, and slicing
+are more problematic. ``append`` and ``extend`` work to maintain a
+"set-ish," no-repeats nature--by discarding any additions that are already
+in the container. Whatever was seen first is considered to be in its "right"
+position. ``insert`` and other ``list`` update methods, however, provide no
+such promises. Indeed, it's not entirely clear what update behavior *should
+be*, given the use case. If a duplicate is appended or inserted somewhere,
+should an exception be raised? Should the code silent refuse to add items
+already seen? Or something else? Maybe even duplicates should be allowed?
+Silent denial is the current default, which is compatible with set behavior
+and ``intspan``; whether that's the "right" choice for a fully ordered
+variant is unclear. (If you have thoughts on this or relevant use cases to
+discuss, open an issue on Bitbucket or ping the author.)
+
+Symbolic Rest
+-------------
 
 As a final trick, ``intspanlist`` instances can contain a special value,
 rendered as an asterisk (``*``), meaning "the rest of the list." Under
-the covers, this is converted into the singleton value ``TheRest``.
+the covers, this is converted into the singleton object ``TheRest``.
 
     >>> intspanlist('1-4,*,8')
     intspanlist('1-4,*,8')
+
+This symbolic "everything else" can be a convenience, but eventually it
+must be "resolved."
 
 ``intspanlist`` objects may be created with an optional second parameter
 which provides "the universe of all items" against which "the rest" may
 be evaluated. For example::
 
-    >>> intspanlist('1-4,*,8','1-9')
+    >>> intspanlist('1-4,*,8', '1-9')
     intspanlist('1-7,9,8')
 
-In other words, whatever items are "left over" from the universe set are
-included wherever the asterisk appears. Like the rest of ``intspan`` and
-``intspanlist`` constructors, duplicates are inherently removed. It is not
-necessary however, to "resolve" the value of the "and the rest" marker
-immediately.
-If not universe is given, you may later update the ``intspanlist`` with
-its missing values::
+Whatever items are "left over" from the universe set are included wherever
+the asterisk appears. Like the rest of ``intspan`` and ``intspanlist``
+constructors, duplicates are inherently removed.
+
+If the universe is not given immeidately, you may later update the
+``intspanlist`` with it::
 
     >>> i = intspanlist('1-4,*,8')
     >>> i.therest_update('1-9')
@@ -182,33 +208,13 @@ kwarg.
 The abstract "and the rest" markers are intended to make ``intspanlist``
 more convenient for specifying complex partial orderings.
 
-**Note** Whereas ``intspan`` attempts to faithfully implement all the
-methods of a Python ``set`` , ``intspanlist`` is a thin shim over ``list``.
-It works fine as an immutable type, but modifications are more problematic.
-``append`` and ``extend`` operations work to maintain a "set-ish,"
-no-repeats nature--by discarding any additions that are already in the
-container. ``insert`` and other ``list`` update methods, however, provide no
-such promises. Indeed, it's not entirely clear what update behavior *should
-be*, given the use case. If a duplicate is appended or inserted somewhere,
-should an exception be raised? Should the code silent refuse to add items
-already seen? Or something else? Maybe even duplicates should be allowed?
-Silent denial is the current default, which is compatible with set behavior
-and ``intspan``; whether that's the "right" choice for a fully ordered
-variant is unclear. (If you have thoughts on this or relevant use cases
-to discuss, open an issue on Bitbucket or ping the author.)
-
-Also important: Unlike this module's ``intspan`` core, ``intspanlist`` tests
-are not yet complete. You read the part about "experimental," right?
-Features, semantics, and APIs may change over time.
-Swim at your own risk.
-
 Performance and Alternatives
 ============================
 
-``intspan`` piggybacks Python's ``set`` (and ``list``) types. So it stores
-every integer individually. Unlike Perl's ``Set::IntSpan`` it is not
-optimized for long contiguous runs. For sets of several hundred or even many
-thousands of members, you will probably never notice the difference.
+The ``intspan`` module piggybacks Python's ``set`` (and ``list``) types. So
+it stores every integer individually. Unlike Perl's ``Set::IntSpan`` it is
+not optimized for long contiguous runs. For sets of several hundred or even
+many thousands of members, you will probably never notice the difference.
 
 But if you're doing extensive processing of large sets (e.g.
 with 100K, 1M, or more elements), or doing lots of set operations on them
