@@ -10,7 +10,7 @@ def linelist(text):
 
 setup(
     name='intspan',
-    version='1.3.4',
+    version='1.3.5',
     author='Jonathan Eunice',
     author_email='jonathan.eunice@gmail.com',
     description="Sets of integers like 1,3-7,33",

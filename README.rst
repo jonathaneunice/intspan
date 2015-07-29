@@ -285,7 +285,7 @@ Notes
     <http://pypi.python.org/pypi/pytest-cov>`_, and `tox
     <http://pypi.python.org/pypi/tox>`_. Successfully packaged for, and
     tested against, all late-model versions of Python: 2.6, 2.7, 3.2, 3.3,
-    3.4, and 3.5 pre-release (3.5.0b4) as well as PyPy 2.6.0 (based on
+    3.4, and 3.5 pre-release (3.5.0b3) as well as PyPy 2.6.0 (based on
     2.7.9) and PyPy3 2.4.0 (based on 3.2.5). Test line coverage ~100% for
     ``intspan`` objects (not the much newer, more experimental
     ``intspanlist`` features).
