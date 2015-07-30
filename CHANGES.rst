@@ -3,6 +3,9 @@
 Change Log
 ==========
 
+ *  Version 1.3.6 switches from BSD to Apache License 2.0 and integrates
+    ``tox`` testing with ``setup.py``
+
  *  Version 1.3 adds ``*`` notation for abstract "the rest of the items"
     in an ``intspanlist``.
 
