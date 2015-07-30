@@ -248,6 +248,10 @@ specification that ``intspan`` does, but they have other virtues:
  *  `judy <http://pypi.python.org/pypi/judy>`_ a Python wrapper around Judy arrays
     that are implemented in C. No docs or tests to speak of.
 
+ *  `RoaringBitmap <https://pypi.python.org/pypi/roaringbitmap>`_, a
+    hybrid array and bitmap structure designed for efficient compression
+    and fast operations on sets of 32-bit integers.
+
 Notes
 =====
 
