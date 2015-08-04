@@ -1,5 +1,5 @@
 
-| |travisci| |version| |downloads| |supported-versions| |supported-implementations|
+| |travisci| |version| |downloads| |supported-versions| |supported-implementations| |wheel|
 
 .. |travisci| image:: https://api.travis-ci.org/jonathaneunice/intspan.svg
     :target: http://travis-ci.org/jonathaneunice/intspan
@@ -18,6 +18,10 @@
 
 .. |supported-implementations| image:: https://img.shields.io/pypi/implementation/intspan.svg
     :alt: Supported implementations
+    :target: https://pypi.python.org/pypi/intspan
+
+.. |wheel| image:: https://img.shields.io/pypi/wheel/intspan.svg
+    :alt: Wheel packaging support
     :target: https://pypi.python.org/pypi/intspan
 
 
@@ -255,6 +259,8 @@ specification that ``intspan`` does, but they have other virtues:
 Notes
 =====
 
+ *  Version 1.3.7 adds ``bdist_wheel`` packaging support.
+
  *  Version 1.3.6 switches from BSD to Apache License 2.0 and integrates
     ``tox`` testing with ``setup.py``
 
@@ -323,7 +329,7 @@ To ``easy_install`` under a specific Python version (3.3 in this example)::
 
     python3.3 -m easy_install --upgrade intspan
 
-(You may need to prefix these with ``sudo`` command to authorize
+(You may need to prefix these with ``sudo`` to authorize
 installation. In environments without super-user privileges, you may want to
 use ``pip``'s ``--user`` option, to install only for a single user, rather
 than system-wide.)

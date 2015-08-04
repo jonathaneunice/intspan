@@ -24,16 +24,17 @@ class Tox(TestCommand):
         errno = tox.cmdline(args=args)
         sys.exit(errno)
 
+
 def linelist(text):
     """
     Returns each non-blank line in text enclosed in a list.
     """
-    return [ l.strip() for l in text.strip().splitlines() if l.strip() ]
+    return [l.strip() for l in text.strip().splitlines() if l.split()]
 
 
 setup(
     name='intspan',
-    version='1.3.6',
+    version='1.3.7',
     author='Jonathan Eunice',
     author_email='jonathan.eunice@gmail.com',
     description="Sets of integers like 1,3-7,33",
