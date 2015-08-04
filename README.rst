@@ -4,11 +4,11 @@
 .. |travisci| image:: https://api.travis-ci.org/jonathaneunice/intspan.svg
     :target: http://travis-ci.org/jonathaneunice/intspan
 
-.. |version| image:: http://img.shields.io/pypi/v/intspan.png?style=flat
+.. |version| image:: http://img.shields.io/pypi/v/intspan.svg?style=flat
     :alt: PyPI Package latest release
     :target: https://pypi.python.org/pypi/intspan
 
-.. |downloads| image:: http://img.shields.io/pypi/dm/intspan.png?style=flat
+.. |downloads| image:: http://img.shields.io/pypi/dm/intspan.svg?style=flat
     :alt: PyPI Package monthly downloads
     :target: https://pypi.python.org/pypi/intspan
 

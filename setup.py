@@ -34,7 +34,7 @@ def linelist(text):
 
 setup(
     name='intspan',
-    version='1.3.7',
+    version='1.3.8',
     author='Jonathan Eunice',
     author_email='jonathan.eunice@gmail.com',
     description="Sets of integers like 1,3-7,33",
@@ -43,7 +43,7 @@ setup(
     license='Apache License 2.0',
     py_modules=['intspan'],
     install_requires=[],
-    tests_require = ['tox', 'pytest', 'pytest-cov'],
+    tests_require=['tox', 'pytest', 'pytest-cov'],
     test_suite="test",
     cmdclass = {'test': Tox},
     zip_safe=False,
