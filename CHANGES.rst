@@ -2,6 +2,9 @@
 
 Change Log
 ==========
+ 
+ *  Version 1.3.10 improved test coverage and explicit coverage testing.
+    Also tweaked docs.
 
  *  Version 1.3.9 simplified ``setup.py`` and packaging.
 
