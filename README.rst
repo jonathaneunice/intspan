@@ -1,5 +1,5 @@
 
-| |travisci| |version| |downloads| |supported-versions| |supported-implementations| |wheel|
+| |travisci| |version| |downloads| |supported-versions| |supported-implementations| |wheel| |coverage|
 
 .. |travisci| image:: https://api.travis-ci.org/jonathaneunice/intspan.svg
     :target: http://travis-ci.org/jonathaneunice/intspan
@@ -22,6 +22,10 @@
 
 .. |wheel| image:: https://img.shields.io/pypi/wheel/intspan.svg
     :alt: Wheel packaging support
+    :target: https://pypi.python.org/pypi/intspan
+
+.. |coverage| image:: https://img.shields.io/badge/test_coverage-100%25-6600CC.svg
+    :alt: Test line coverage
     :target: https://pypi.python.org/pypi/intspan
 
 
@@ -287,7 +291,9 @@ Notes
 
 * Automated multi-version testing managed with `pytest
   <http://pypi.python.org/pypi/pytest>`_, `pytest-cov
-  <http://pypi.python.org/pypi/pytest-cov>`_, and `tox
+  <http://pypi.python.org/pypi/pytest-cov>`_,
+  `coverage <https://pypi.python.org/pypi/coverage/4.0b1>`_
+  and `tox
   <http://pypi.python.org/pypi/tox>`_. Continuous integration testing
   with `Travis-CI <https://travis-ci.org/jonathaneunice/intspan>`_.
   Packaging linting with `pyroma <https://pypi.python.org/pypi/pyroma>`_.
@@ -295,9 +301,7 @@ Notes
   Successfully packaged for, and
   tested against, all late-model versions of Python: 2.6, 2.7, 3.2, 3.3,
   3.4, and 3.5 pre-release (3.5.0b3) as well as PyPy 2.6.0 (based on
-  2.7.9) and PyPy3 2.4.0 (based on 3.2.5). Test line coverage ~100% for
-  ``intspan`` objects, and over 97% including the much newer, more experimental
-  ``intspanlist`` features.
+  2.7.9) and PyPy3 2.4.0 (based on 3.2.5). Test line coverage 100%.
 
 * The author, `Jonathan Eunice <mailto:jonathan.eunice@gmail.com>`_ or
   `@jeunice on Twitter <http://twitter.com/jeunice>`_

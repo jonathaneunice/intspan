@@ -2,7 +2,10 @@
 
 Change Log
 ==========
- 
+
+ *  Version 1.4.0 achieves 100% test coverage and integrated coverage testing
+    across multiple versions with ``tox``.
+
  *  Version 1.3.10 improved test coverage and explicit coverage testing.
     Also tweaked docs.
 

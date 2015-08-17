@@ -17,6 +17,13 @@ def test_basic():
         assert str(s) == t
 
 
+def test_lopsided_constructor():
+    s = intspanlist('', '4-7')
+    ss = intspanlist('*', '4-7')
+    assert len(s) == 0
+    assert len(ss) == 4
+
+
 def test_parse_error():
     with pytest.raises(ParseError):
         s = intspanlist('7*99')
@@ -98,6 +105,32 @@ def test_pop():
     assert s.pop(0) == 2
     with pytest.raises(IndexError):
         s.pop()
+
+
+def test_append():
+    s = intspanlist('100-110')
+    assert len(s) == 11
+    s.append(111)
+    assert len(s) == 12
+    assert s == intspanlist('100-111')
+
+    # deviant add of already existing element
+    s.append(111)
+    assert len(s) == 12
+    assert s == intspanlist('100-111')
+
+
+def test_extend():
+    s = intspanlist('100-110')
+    assert len(s) == 11
+    s.extend([111, 112])
+    assert len(s) == 13
+    assert s == intspanlist('100-112')
+
+    # deviant add of already existing element
+    s.extend([101, 112])
+    assert len(s) == 13
+    assert s == intspanlist('100-112')
 
 
 def test_ranges_basic():
@@ -286,3 +319,12 @@ def test_therest_update():
     j.therest_update('1-5')
     assert j == [1, 2, 3, 4, 5]
     assert j is not j2
+
+
+def test_therest_update_nostar():
+    # if no star in the intspanlist, no update
+    i = intspanlist('1-5')
+    i2 = i.therest_update('1-7', inplace=False)
+    assert i == [1, 2, 3, 4, 5]
+    assert i2 == [1, 2, 3, 4, 5]
+    assert i2 is not i
