@@ -25,15 +25,18 @@
     :target: https://pypi.python.org/pypi/intspan
 
 
-A ``set`` subclass that conveniently stores sets of integers. Sets can be
-created from and displayed as integer spans such as ``1-3,14,29,92-97``
-rather than exhaustive member listings. Compare::
+``intspan`` is a ``set`` subclass that conveniently stores sets of integers.
+Sets can be created from and displayed as integer spans such as
+``1-3,14,29,92-97`` rather than exhaustive member listings. Compare::
 
     intspan('1-3,14,29,92-97')
     [1, 2, 3, 14, 29, 92, 93, 94, 95, 96, 97]
 
-While they indicate the same values, the ``intspan`` is more compact
-and better divulges the contiguous nature of parts of the collection.
+While they indicate the same values, the ``intspan`` is more compact.
+Even more important, it
+better divulges the contiguous nature of parts of the collection. It
+is easier for humans to quickly determine the "shape" of the collection
+and ascertain "what's missing?"
 
 When iterating, ``pop()``-ing an item, or converting to a list, ``intspan``
 behaves as if it were an ordered--in fact, sorted--collection. A key
@@ -127,7 +130,7 @@ intspanlist
 As of version 1.2, a new function ``spanlist`` is provided. It
 returns a list from the same kind of specification string ``intspan`` does,
 but ordered as given rather than fully sorted. A corresponding
-``intspanlist`` subclasses ``list`` in
+``intspanlist`` class subclasses ``list`` in
 the same way that ``intspan`` subclasses ``set``. ::
 
     >>> intspanlist('4,1-5,5')  # note order preserved
@@ -144,14 +147,14 @@ creates a similar object--but one that has a more sophisticated representation
 and more specific update methods. Both of them have somewhat set-like behavior,
 in that they seek to not have excess duplication of members.
 
-The intended use for this strictly-ordered version of ``intspan`` is
-to specify an ordering of elements. For example,
-a program might have 20 items, 1-20. If you wanted to process item 7,
-then item 3, then "all the rest," ``intspanlist('7,3,1-20')``
-would be a convenient way to specify this. You could loop over
-that object in the desired order. (See below for a different formulation,
-``intspanlist('7,3,*')``, in which the ``*`` is a symbolic "all the rest"
-marker, and the universe set can be specified either immediately or later.)
+The intended use for this strictly-ordered version of ``intspan`` is to
+specify an ordering of elements. For example, a program might have 20 items,
+1-20. If you wanted to process item 7, then item 3, then "all the rest,"
+``intspanlist('7,3,1-20')`` would be a convenient way to specify this. You
+could loop over that object in the desired order. (See below for a different
+formulation, ``intspanlist('7,3,*')``, in which the ``*`` is a symbolic "all
+the rest" marker, and the universe set can be specified either immediately
+or later.)
 
 Note that ``intspanlist`` objects do not necessarily display as they are
 entered::
@@ -171,7 +174,9 @@ are more problematic. ``append`` and ``extend`` work to maintain a
 "set-ish," no-repeats nature--by discarding any additions that are already
 in the container. Whatever was seen first is considered to be in its "right"
 position. ``insert`` and other ``list`` update methods, however, provide no
-such promises. Indeed, it's not entirely clear what update behavior *should
+such promises.
+
+Indeed, it's not entirely clear what update behavior *should
 be*, given the use case. If a duplicate is appended or inserted somewhere,
 should an exception be raised? Should the code silent refuse to add items
 already seen? Or something else? Maybe even duplicates should be allowed?
@@ -221,7 +226,7 @@ more convenient for specifying complex partial orderings.
 Performance and Alternatives
 ============================
 
-The ``intspan`` module piggybacks Python's ``set`` (and ``list``) types. So
+The ``intspan`` module piggybacks Python's ``set`` and ``list`` types. So
 it stores every integer individually. Unlike Perl's ``Set::IntSpan`` it is
 not optimized for long contiguous runs. For sets of several hundred or even
 many thousands of members, you will probably never notice the difference.
@@ -238,81 +243,68 @@ There are several modules you might want to consider as alternatives or
 supplements. AFAIK, none of them provide the convenient integer span
 specification that ``intspan`` does, but they have other virtues:
 
- *  `cowboy <http://pypi.python.org/pypi/cowboy>`_ provides
-    generalized ranges and multi-ranges. Bonus points for the package
-    tagline: "It works on ranges."
+* `cowboy <http://pypi.python.org/pypi/cowboy>`_ provides
+  generalized ranges and multi-ranges. Bonus points for the package
+  tagline: "It works on ranges."
 
- *  `ranger <http://pypi.python.org/pypi/ranger>`_ is a generalized range and range set
-    module. It supports open and closed ranges, and includes mapping objects that
-    attach one or more objects to range sets.
+* `ranger <http://pypi.python.org/pypi/ranger>`_ is a generalized range and range set
+  module. It supports open and closed ranges, and includes mapping objects that
+  attach one or more objects to range sets.
 
- *  `rangeset <http://pypi.python.org/pypi/rangeset>`_ is a generalized range set
-    module. It also supports infinite ranges.
+* `rangeset <http://pypi.python.org/pypi/rangeset>`_ is a generalized range set
+  module. It also supports infinite ranges.
 
- *  `judy <http://pypi.python.org/pypi/judy>`_ a Python wrapper around Judy arrays
-    that are implemented in C. No docs or tests to speak of.
+* `judy <http://pypi.python.org/pypi/judy>`_ a Python wrapper around Judy arrays
+  that are implemented in C. No docs or tests to speak of.
 
- *  `RoaringBitmap <https://pypi.python.org/pypi/roaringbitmap>`_, a
-    hybrid array and bitmap structure designed for efficient compression
-    and fast operations on sets of 32-bit integers.
+* `RoaringBitmap <https://pypi.python.org/pypi/roaringbitmap>`_, a
+  hybrid array and bitmap structure designed for efficient compression
+  and fast operations on sets of 32-bit integers.
 
 Notes
 =====
 
- *  Version 1.3.7 adds ``bdist_wheel`` packaging support.
+* See ``CHANGES.rst`` for a historical view of changes.
 
- *  Version 1.3.6 switches from BSD to Apache License 2.0 and integrates
-    ``tox`` testing with ``setup.py``
+* Though inspired by Perl's `Set::IntSpan <http://search.cpan.org/~swmcd/Set-IntSpan/IntSpan.pm>`_,
+  that's where the similarity stops.
+  ``intspan`` supports only finite sets, and it
+  follows the methods and conventions of Python's ``set``.
 
- *  Version 1.3 adds ``*`` notation for abstract "the rest of the items"
-    in an ``intspanlist``.
+* ``intspan`` methods and operations such as ``add()`` ``discard()``, and
+  ``>=`` take integer span strings, lists, and sets as arguments, changing
+  facilities that used to take only one item into ones that take multiples,
+  including arguments that are technically string specifications rather than
+  proper ``intspan`` objects.
 
- *  Version 1.2.6 inaugurates continuous integration with Travis CI.
+* A version of ``intspanlist`` that does not discard duplicates is under
+  consideration.
 
- *  Version 1.2 adds an experimental ``spanlist`` constructor and
-    ``intspanlist`` type.
+* String representation and ``ranges()`` method
+  based on Jeff Mercado's concise answer to `this
+  StackOverflow question <http://codereview.stackexchange.com/questions/5196/grouping-consecutive-numbers-into-ranges-in-python-3-2>`_.
+  Thank you, Jeff!
 
- *  See ``CHANGES.rst`` for a historical view of changes.
+* Automated multi-version testing managed with `pytest
+  <http://pypi.python.org/pypi/pytest>`_, `pytest-cov
+  <http://pypi.python.org/pypi/pytest-cov>`_, and `tox
+  <http://pypi.python.org/pypi/tox>`_. Continuous integration testing
+  with `Travis-CI <https://travis-ci.org/jonathaneunice/intspan>`_.
+  Packaging linting with `pyroma <https://pypi.python.org/pypi/pyroma>`_.
 
- *  Though inspired by Perl's `Set::IntSpan <http://search.cpan.org/~swmcd/Set-IntSpan/IntSpan.pm>`_,
-    that's where the similarity stops.
-    ``intspan`` supports only finite sets, and it
-    follows the methods and conventions of Python's ``set``.
+  Successfully packaged for, and
+  tested against, all late-model versions of Python: 2.6, 2.7, 3.2, 3.3,
+  3.4, and 3.5 pre-release (3.5.0b3) as well as PyPy 2.6.0 (based on
+  2.7.9) and PyPy3 2.4.0 (based on 3.2.5). Test line coverage ~100% for
+  ``intspan`` objects, and over 97% including the much newer, more experimental
+  ``intspanlist`` features.
 
- *  ``intspan`` methods and operations such as ``add()`` ``discard()``, and
-    ``>=`` take integer span strings, lists, and sets as arguments, changing
-    facilities that used to take only one item into ones that take multiples,
-    including arguments that are technically string specifications rather than
-    proper ``intspan`` objects.
+* The author, `Jonathan Eunice <mailto:jonathan.eunice@gmail.com>`_ or
+  `@jeunice on Twitter <http://twitter.com/jeunice>`_
+  welcomes your comments and suggestions.
 
- *  A version of ``intspanlist`` that does not discard duplicates is under
-    consideration.
-
- *  String representation and ``ranges()`` method
-    based on Jeff Mercado's concise answer to `this
-    StackOverflow question <http://codereview.stackexchange.com/questions/5196/grouping-consecutive-numbers-into-ranges-in-python-3-2>`_.
-    Thank you, Jeff!
-
- *  Automated multi-version testing managed with `pytest
-    <http://pypi.python.org/pypi/pytest>`_, `pytest-cov
-    <http://pypi.python.org/pypi/pytest-cov>`_, and `tox
-    <http://pypi.python.org/pypi/tox>`_. Continuous integration testing
-    with `Travis-CI <https://travis-ci.org/jonathaneunice/intspan>`_.
-    Packaging linting with `pyroma <https://pypi.python.org/pypi/pyroma>`_.
-
-    Successfully packaged for, and
-    tested against, all late-model versions of Python: 2.6, 2.7, 3.2, 3.3,
-    3.4, and 3.5 pre-release (3.5.0b3) as well as PyPy 2.6.0 (based on
-    2.7.9) and PyPy3 2.4.0 (based on 3.2.5). Test line coverage ~100% for
-    ``intspan`` objects (not the much newer, more experimental
-    ``intspanlist`` features).
-
- *  The author, `Jonathan Eunice <mailto:jonathan.eunice@gmail.com>`_ or
-    `@jeunice on Twitter <http://twitter.com/jeunice>`_
-    welcomes your comments and suggestions.
-
- *  If you find ``intspan`` useful, consider buying me a pint and a nice
-    salty pretzel.:
+* If you find ``intspan`` useful, consider buying me a pint and a nice
+  salty pretzel.
 
 .. image:: https://img.shields.io/gratipay/jeunice.svg
     :target: https://www.gittip.com/jeunice/

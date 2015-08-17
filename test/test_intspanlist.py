@@ -4,6 +4,11 @@ from intspan import *
 from intspan import ParseError, TheRest
 
 
+def test_TheRest_strings():
+    assert str(TheRest) == '*'
+    assert repr(TheRest) == 'TheRest'
+
+
 def test_basic():
     s = intspanlist()
     tests = ['', '1', '1-2', '1-3,9-10', '1-3,14,29,92-97']
@@ -41,6 +46,20 @@ def test_contains():
 def test_equals():
     s = intspanlist('1,3,5,7,9')
     assert s == [1, 3, 5, 7, 9]
+
+
+def test_lt_and_gt():
+    s = intspanlist('1,2')
+    t = intspanlist('1,2,4')
+    u = intspanlist('4,5')
+    assert s < t < u
+    assert u > t > s
+    assert u > s
+    assert u > t
+    assert s < t
+    assert s < u
+    assert t < u
+    assert t > s
 
 
 def test_copy():

@@ -5,5 +5,4 @@ include tox.ini
 include .travis.yml
 include CHANGES.rst
 include intspan.py
-include requirements.txt
 recursive-include test *.py

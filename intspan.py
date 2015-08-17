@@ -10,6 +10,9 @@ _PY3 = sys.version_info[0] > 2
 if _PY3:
     basestring = str
 
+
+# Define regular expressions for spans and spans that may contain
+# star (TheRest) markers
 SPANRE = re.compile(r'^\s*(?P<start>-?\d+)\s*(-\s*(?P<stop>-?\d+))?\s*$')
 SPANRESTAR = re.compile(
     r'^\s*((?P<star>\*)|(?P<start>-?\d+)\s*(-\s*(?P<stop>-?\d+))?)\s*$')
@@ -21,15 +24,22 @@ class ParseError(ValueError):
 
 class Rester(object):
 
+    """
+    Singleton to represent "the rest of the values."
+    """
+
     def __repr__(self):
         return 'TheRest'
 
     def __str__(self):
         return '*'
+
+
 TheRest = Rester()
 
 
 def _parse_range(datum):
+
     """
     Parser for intspan and intspan list.
     """
@@ -113,10 +123,15 @@ def _noRestDiff(a, b):
     try:
         return a - b
     except TypeError:
-        return 2  # anything more than 1
+        return 2  # anything more than 1 signals "the next thing is in
+                  # another span, not this current one"
 
 
 class intspan(set):
+
+    """
+    The reason for the season.
+    """
 
     def __init__(self, initial=None):
         super(intspan, self).__init__()
@@ -217,11 +232,11 @@ class intspan(set):
         Optionally allows the universe set to be manually specified.
         """
         cls = self.__class__
+        if not self:
+            raise ValueError('cannot represent infinite set')
         low = low if low is not None else min(self)
         high = high if high is not None else max(self)
         universe = cls.from_range(low, high)
-        if not universe:
-            raise ValueError('cannot represent infinite set')
         return universe - self
 
     @classmethod
@@ -346,11 +361,11 @@ class intspanlist(list):
         Optionally allows the universe set to be manually specified.
         """
         cls = self.__class__
+        if not self:
+            raise ValueError('cannot represent infinite set')
         low = low if low is not None else min(self)
         high = high if high is not None else max(self)
         universe = cls.from_range(low, high)
-        if not universe:
-            raise ValueError('cannot represent infinite set')
         result = []
         contained = set(self)
         for x in universe:

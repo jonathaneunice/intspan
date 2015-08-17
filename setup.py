@@ -22,7 +22,7 @@ setup(
     url='https://bitbucket.org/jeunice/intspan',
     license='Apache License 2.0',
     py_modules=['intspan'],
-    setup_requires=[],
+	setup_requires=[],
     install_requires=[],
     tests_require=['tox', 'pytest', 'pytest-cov'],
     test_suite="test",

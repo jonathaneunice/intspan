@@ -3,6 +3,8 @@
 Change Log
 ==========
 
+ *  Version 1.3.9 simplified ``setup.py`` and packaging.
+
  *  Version 1.3.7 adds ``bdist_wheel`` packaging support.
 
  *  Version 1.3.6 switches from BSD to Apache License 2.0 and integrates
