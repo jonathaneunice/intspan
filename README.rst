@@ -1,5 +1,5 @@
 
-| |travisci| |version| |downloads| |supported-versions| |supported-implementations| |wheel| |coverage|
+| |travisci| |version| |downloads| |supported-versions| |supported-implementations| |wheel| |coverage| |br-coverage|
 
 .. |travisci| image:: https://api.travis-ci.org/jonathaneunice/intspan.svg
     :target: http://travis-ci.org/jonathaneunice/intspan
@@ -28,6 +28,9 @@
     :alt: Test line coverage
     :target: https://pypi.python.org/pypi/intspan
 
+.. |br-coverage| image:: https://img.shields.io/badge/branch_coverage-100%25-6600CC.svg
+    :alt: Test branch coverage
+    :target: https://pypi.python.org/pypi/intspan
 
 ``intspan`` is a ``set`` subclass that conveniently stores sets of integers.
 Sets can be created from and displayed as integer spans such as

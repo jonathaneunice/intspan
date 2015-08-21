@@ -3,6 +3,8 @@
 Change Log
 ==========
 
+ *  Version 1.4.1 achieves 100% *branch* coverage. *Hooah!*
+
  *  Version 1.4.0 achieves 100% test coverage and integrated coverage testing
     across multiple versions with ``tox``.
 
