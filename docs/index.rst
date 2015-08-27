@@ -32,6 +32,6 @@ a large dataset.
    intspanlist <intspanlist>
    Performance and Alternatives <issues>
    Notes <notes>
-   api
+   API Reference <api>
    Installation <installation>
    CHANGES

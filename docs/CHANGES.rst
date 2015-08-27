@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+**1.4.4**  (August 27, 2015)
+
+    Improving documentation, especially around API details. Will
+    probably require a handful of incremental passes to get  the API
+    reference ship-shape.
+
+
 **1.4.2**  (August 26, 2015)
 
     Reorganied documentation. Added API details and moved full docs to

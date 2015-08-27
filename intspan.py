@@ -130,18 +130,33 @@ def _noRestDiff(a, b):
 class intspan(set):
 
     """
-    The reason for the season.
+    A set of integers, expressed as an ordered sequence of spans.
+    Because ``intspan('1-3,14,29,92-97')`` is better than
+    ``[1, 2, 3, 14, 29, 92, 93, 94, 95, 96, 97]``.
     """
 
     def __init__(self, initial=None):
+        """
+        Construct a new ``intspan``.
+
+        :param iterable|str: Optional initial list of items.
+        """
         super(intspan, self).__init__()
         if initial:
             self.update(initial)
 
     def copy(self):
+        """
+        Return a new set with the same members.
+        """
         return copy.copy(self)
 
     def update(self, items):
+        """
+        Add multiple items.
+
+        :param iterable|str items: Items to add. May be an intspan-style string.
+        """
         super(intspan, self).update(_parse_range(items))
         return self
 
@@ -159,6 +174,11 @@ class intspan(set):
         return self
 
     def discard(self, items):
+        """
+        Discard items.
+
+        :param iterable|str items: Items to remove. May be an intspan-style string.
+        """
         for item in _parse_range(items):
             super(intspan, self).discard(item)
 
@@ -167,6 +187,11 @@ class intspan(set):
             super(intspan, self).remove(item)
 
     def add(self, items):
+        """
+        Add items.
+
+        :param iterable|str items: Items to add. May be an intspan-style string.
+        """
         for item in _parse_range(items):
             super(intspan, self).add(item)
 
@@ -230,6 +255,9 @@ class intspan(set):
         Return the complement of the given intspan--that is, all of the
         'missing' elements between its minimum and missing values.
         Optionally allows the universe set to be manually specified.
+
+        :param int low: Low bound of universe to complement against.
+        :param int high: High bound of universe to complement against.
         """
         cls = self.__class__
         if not self:
@@ -245,6 +273,11 @@ class intspan(set):
         Construct an intspan from the low value to the high value,
         inclusive. I.e., closed range, not the more typical Python
         half-open range.
+
+        :param int low: Low bound of set to construct.
+        :param int high: High bound of set to construct.
+        :returns: New intspan low-high.
+        :rtype: intspan
         """
         return cls(range(low, high + 1))
 
@@ -255,6 +288,10 @@ class intspan(set):
         sequences (lists or tuples, say). Note that these values are
         inclusive, closed ranges, not the more typical Python
         half-open ranges.
+
+        :param list ranges: List of closed/inclusive ranges, each a tuple.
+        :returns: intspan combining the ranges
+        :rtype: intspan
         """
         return cls(chain(*(range(r[0], r[1] + 1) for r in ranges)))
 
@@ -276,6 +313,9 @@ class intspan(set):
     def ranges(self):
         """
         Return a list of the set's contiguous (inclusive) ranges.
+        
+        :returns: List of all contained ranges.
+        :rtype: list
         """
         items = sorted(self)
         gk = lambda n, c=count(): n - next(c)

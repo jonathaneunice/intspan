@@ -1,4 +1,11 @@
 -
+    version: 1.4.4
+    date: August 27, 2015
+    notes: >
+        Improving documentation, especially around API details. Will 
+        probably require a handful of incremental passes to get 
+        the API reference ship-shape.
+-
     version: 1.4.2
     date: August 26, 2015
     notes: >
