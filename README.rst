@@ -1,5 +1,5 @@
 
-| |travisci| |version| |downloads| |supported-versions| |supported-implementations| |wheel| |coverage| |br-coverage|
+| |travisci| |version| |downloads| |versions| |impls| |wheel| |coverage| |br-coverage|
 
 .. |travisci| image:: https://api.travis-ci.org/jonathaneunice/intspan.svg
     :target: http://travis-ci.org/jonathaneunice/intspan
@@ -12,11 +12,11 @@
     :alt: PyPI Package monthly downloads
     :target: https://pypi.python.org/pypi/intspan
 
-.. |supported-versions| image:: https://img.shields.io/pypi/pyversions/intspan.svg
+.. |versions| image:: https://img.shields.io/pypi/pyversions/intspan.svg
     :alt: Supported versions
     :target: https://pypi.python.org/pypi/intspan
 
-.. |supported-implementations| image:: https://img.shields.io/pypi/implementation/intspan.svg
+.. |impls| image:: https://img.shields.io/pypi/implementation/intspan.svg
     :alt: Supported implementations
     :target: https://pypi.python.org/pypi/intspan
 
