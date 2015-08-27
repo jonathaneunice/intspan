@@ -14,7 +14,7 @@ def lines(text):
 
 setup(
     name='intspan',
-    version='1.4.1',
+    version='1.4.2',
     author='Jonathan Eunice',
     author_email='jonathan.eunice@gmail.com',
     description="Sets of integers like 1,3-7,33",
@@ -22,7 +22,7 @@ setup(
     url='https://bitbucket.org/jeunice/intspan',
     license='Apache License 2.0',
     py_modules=['intspan'],
-	setup_requires=[],
+    setup_requires=[],
     install_requires=[],
     tests_require=['tox', 'pytest', 'pytest-cov'],
     test_suite="test",
