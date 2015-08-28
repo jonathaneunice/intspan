@@ -12,6 +12,13 @@ def test_basic():
         assert str(s) == t
 
 
+def test_alt_contstructors():
+    assert intspan(range(100)) == intspan('0-99')
+    assert intspan([1,3,5]) == intspan('1,3,5')
+    assert intspan([5,3,1]) == intspan('1,3,5')
+    assert intspan(intspan('1,3,5')) == intspan('1,3,5')
+
+
 def test_parse_error():
     with pytest.raises(ParseError):
         s = intspan('7*99')
@@ -267,6 +274,26 @@ def test_from_ranges():
     assert intspan.from_ranges([(1, 3)]) == intspan('1-3')
     assert intspan.from_ranges([(2, 2)]) == intspan('2')
     assert intspan.from_ranges([]) == intspan()
+
+
+def test_universe():
+    assert intspan().universe() == intspan()
+    assert intspan('').universe() == intspan()
+    assert intspan([]).universe() == intspan()
+
+    assert intspan('1').universe() == intspan('1')
+
+    assert intspan('1,3,5,7').universe() == intspan('1-7')
+
+    s = intspan('1,3,5-9')
+    assert s.universe() == intspan('1-9')
+    assert s.universe(high=10) == intspan('1-10')
+    assert s.universe(high=14) == intspan('1-14')
+    assert s.universe(low=0) == intspan('0-9')
+    assert s.universe(low=0, high=14) == intspan('0-14')
+    assert s.universe(-2, 5) == intspan('-2-5')
+
+    assert intspan('1-100').universe() == intspan('1-100')
 
 
 def test_complement():

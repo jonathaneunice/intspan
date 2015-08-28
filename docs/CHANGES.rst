@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+**1.5.0**  (August 27, 2015)
+
+    Added ``universe`` method. Extended tests. Continuing to extend
+    docs.
+
+
 **1.4.4**  (August 27, 2015)
 
     Improving documentation, especially around API details. Will

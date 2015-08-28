@@ -139,7 +139,9 @@ class intspan(set):
         """
         Construct a new ``intspan``.
 
-        :param iterable|str: Optional initial list of items.
+        :param iterable|str initial: Optional initial list of items.
+        :returns: the intspan
+        :rtype: intspan
         """
         super(intspan, self).__init__()
         if initial:
@@ -240,6 +242,14 @@ class intspan(set):
         return iter(sorted(super(intspan, self).__iter__()))
 
     def pop(self):
+        """
+        Remove and return an arbitrary element; raises KeyError if empty.
+
+        :returns: Arbitrary member of the set (which is removed)
+        :rtype: int
+        :raises KeyError: If the set is empty.
+
+        """
         if self:
             min_item = min(self)
             self.discard(min_item)
@@ -250,6 +260,25 @@ class intspan(set):
         # This method added only for PyPy, which otherwise would get the wrong
         # answer (unordered).
 
+
+    def universe(self, low=None, high=None):
+        """
+        Return the "universe" or "covering set" of the given intspan--that
+        is, all of the integers between its minimum and missing values.
+        Optionally allows the bounds of the universe set to be manually specified.
+
+        :param int low: Low bound of universe.
+        :param int high: High bound of universe.
+        :returns: the universe or covering set
+        :rtype: intspan
+        """
+        if not self and low is None and high is None:
+            return intspan()
+        low = low if low is not None else min(self)
+        high = high if high is not None else max(self)
+        universe = self.__class__.from_range(low, high)
+        return universe
+
     def complement(self, low=None, high=None):
         """
         Return the complement of the given intspan--that is, all of the
@@ -258,14 +287,13 @@ class intspan(set):
 
         :param int low: Low bound of universe to complement against.
         :param int high: High bound of universe to complement against.
+        :returns: the complement set
+        :rtype: intspan
+        :raises ValueError: if the set is empty (thus the compelement is infinite)
         """
-        cls = self.__class__
         if not self:
             raise ValueError('cannot represent infinite set')
-        low = low if low is not None else min(self)
-        high = high if high is not None else max(self)
-        universe = cls.from_range(low, high)
-        return universe - self
+        return self.universe(low, high) - self
 
     @classmethod
     def from_range(cls, low, high):
@@ -313,7 +341,7 @@ class intspan(set):
     def ranges(self):
         """
         Return a list of the set's contiguous (inclusive) ranges.
-        
+
         :returns: List of all contained ranges.
         :rtype: list
         """
@@ -343,6 +371,13 @@ class intspanlist(list):
     """
 
     def __init__(self, initial=None, universe=None):
+        """
+        Construct a new ``intspanlist``
+
+        :param iterable|str initial: Optional initial list of items.
+        :returns: the intspanlist
+        :rtype: intspanlist
+        """
         super(intspanlist, self).__init__()
         if initial:
             self.extend(initial)
@@ -373,12 +408,25 @@ class intspanlist(list):
         return toedit
 
     def copy(self):
+        """
+        Return a copy of the intspanlist.
+        """
         return copy.copy(self)
 
     def append(self, item):
+        """
+        Add to the end of the intspanlist
+
+        :param int item: Item to add
+        """
         self.extend(spanlist(item))
 
     def extend(self, items):
+        """
+        Add a collection to the end of the intspanlist
+
+        :param iterable items: integers to add
+        """
         seen = set(self)
         for newitem in spanlist(items):
             if newitem in seen:
@@ -399,6 +447,12 @@ class intspanlist(list):
         Return the complement of the given intspanlist--that is, all of the
         'missing' elements between its minimum and missing values.
         Optionally allows the universe set to be manually specified.
+
+        :param int low: Low bound of universe to complement against.
+        :param int high: High bound of universe to complement against.
+        :returns: the complement set
+        :rtype: intspanlist
+        :raises ValueError: if the set is empty (thus the compelement is infinite)
         """
         cls = self.__class__
         if not self:
@@ -416,19 +470,29 @@ class intspanlist(list):
     @classmethod
     def from_range(cls, low, high):
         """
-        Construct an intspan from the low value to the high value,
+        Construct an intspanlist from the low value to the high value,
         inclusive. I.e., closed range, not the more typical Python
         half-open range.
+
+        :param int low: Low bound.
+        :param int high: High bound.
+        :returns: New intspanlist low-high.
+        :rtype: intspanlist
         """
         return cls(range(low, high + 1))
 
     @classmethod
     def from_ranges(cls, ranges):
         """
-        Construct an intspan from a sequence of (low, high) value
+        Construct an intspanlist from a sequence of (low, high) value
         sequences (lists or tuples, say). Note that these values are
         inclusive, closed ranges, not the more typical Python
         half-open ranges.
+
+
+        :param list ranges: List of closed/inclusive ranges, each a tuple.
+        :returns: intspanlist combining the ranges
+        :rtype: intspanlist
         """
         return cls(chain(*(range(r[0], r[1] + 1) for r in ranges)))
 

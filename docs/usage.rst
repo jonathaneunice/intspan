@@ -55,6 +55,12 @@ A convenience ``from_range`` method creates a contiguous
     >>> intspan.from_range(8, 12)
     intspan('8-12')
 
+The ``universe`` method returns the covering set or "implied universe" of
+an ``intspan``::
+
+    >> intspan('1,3,5,7').universe()
+    intspan('1-7')
+
 To find the elements *not* included, you can use the ``complement`` method::
 
     >>> items = intspan('1-3,5,7-9,10,21-24')
@@ -72,4 +78,3 @@ explicitly.::
 You can use the ``difference`` method or ``-`` operator
 to find the complement with respect to an arbitrary set, rather than just
 an expected contiguous range.
-
