@@ -1,4 +1,10 @@
 -
+    version: 1.5.2
+    date: September 23, 2015
+    notes: >
+        Tested and certified for PyPy 2.6.1 (based on Python 2.7.10)
+
+-
     version: 1.5.1
     date: September 14, 2015
     notes: >

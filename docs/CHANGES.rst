@@ -1,6 +1,16 @@
 Change Log
 ==========
 
+**1.5.2**  (September 23, 2015)
+
+    Tested and certified for PyPy 2.6.1 (based on Python 2.7.10)
+
+
+**1.5.1**  (September 14, 2015)
+
+    Updated testing for Python 3.5.0 final.
+
+
 **1.5.0**  (August 27, 2015)
 
     Added ``universe`` method. Extended tests. Continuing to extend
