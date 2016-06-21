@@ -20,7 +20,15 @@ specification that ``intspan`` does, but they have other virtues:
 
 * `cowboy <http://pypi.python.org/pypi/cowboy>`_ provides
   generalized ranges and multi-ranges. Bonus points for the package
-  tagline: "It works on ranges."
+  tagline: "It works on ranges
+
+* `spans <https://pypi.python.org/pypi/Spans>`_ provides several different
+  kinds of ranges and then sets for those ranges. Includes nice ``datetime``
+  based intervals similar to PostgreSQL time intervals, and ``float``
+  ranges/sets.
+  More ambitious and
+  general than ``intspan``, but lacks truly convenient input or output
+  methods akin to ``intspan``.
 
 * `ranger <http://pypi.python.org/pypi/ranger>`_ is a generalized range and range set
   module. It supports open and closed ranges, and includes mapping objects that
@@ -35,4 +43,3 @@ specification that ``intspan`` does, but they have other virtues:
 * `RoaringBitmap <https://pypi.python.org/pypi/roaringbitmap>`_, a
   hybrid array and bitmap structure designed for efficient compression
   and fast operations on sets of 32-bit integers.
-
