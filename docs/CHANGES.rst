@@ -1,6 +1,16 @@
 Change Log
 ==========
 
+**1.5.3**  (June 21, 2016)
+
+    Tested and certified for Python 2.7.11, 3.4.4, 3.5.1, 3.6.0a2,
+    PyPy 3.5.1 (based on Python 2.7.10), and PyPy3 5.2.0-alpha0 (based
+    on Python 3.3.5). Python 3.2 is deprecated due to its advancing
+    age and now-limited compatibility with my test rig. It still
+    passes Travis CI tests--but as soon as it does not, it will be
+    withdrawn from support.
+
+
 **1.5.2**  (September 23, 2015)
 
     Tested and certified for PyPy 2.6.1 (based on Python 2.7.10)

@@ -6,10 +6,10 @@
         3.5.1, 3.6.0a2, 
         PyPy 3.5.1 (based on Python 2.7.10), and
         PyPy3 5.2.0-alpha0 (based on Python 3.3.5).
-        Python 3.2 has been removed from the testing matrix
-        and official support due to its advancing age
-        and lack of support by the `py.test` and `tox`
-        testing tools. 
+        Python 3.2 is deprecated due to its advancing age
+        and now-limited compatibility with my test rig.
+        It still passes Travis CI tests--but as soon as
+        it does not, it will be withdrawn from support.
         
 -
     version: 1.5.2
