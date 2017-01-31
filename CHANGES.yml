@@ -1,4 +1,12 @@
 -
+    version: 1.5.4
+    date: Jan 31, 2017
+    notes: >
+        Tested and certified for all early 2017 versions of Python
+        including latest builds of 2.6, 2.7, 3.3, 3.4, 3.5, and
+        3.6, as well as latest PyPy and PyPy3.
+
+-
     version: 1.5.3
     date: June 21, 2016
     notes: >

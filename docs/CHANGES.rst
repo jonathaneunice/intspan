@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+**1.5.4**  (January 31, 2017)
+
+    Tested and certified for all early 2017 versions of Python
+    including latest builds of 2.6, 2.7, 3.3, 3.4, 3.5, and 3.6, as
+    well as latest PyPy and PyPy3.
+
+
 **1.5.3**  (June 21, 2016)
 
     Tested and certified for Python 2.7.11, 3.4.4, 3.5.1, 3.6.0a2,
