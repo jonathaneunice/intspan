@@ -8,7 +8,7 @@ Notes
 
 * ``intspan`` methods and operations such as ``add()`` ``discard()``, and
   ``>=`` take integer span strings, lists, and sets as arguments, changing
-  facilities that used to take only one item into ones that take multiples,
+  facilities that used to take only one item into ones that take multiple,
   including arguments that are technically string specifications rather than
   proper ``intspan`` objects.
 

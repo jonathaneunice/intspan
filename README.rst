@@ -8,7 +8,9 @@
     :alt: PyPI Package latest release
     :target: https://pypi.python.org/pypi/intspan
 
-.. |downloads| image:: http://img.shields.io/pypi/dm/intspan.svg?style=flat
+..
+    Download counts seem to periodically fail. In early 2017, not working
+    |downloads| image:: http://img.shields.io/pypi/dm/intspan.svg?style=flat
     :alt: PyPI Package monthly downloads
     :target: https://pypi.python.org/pypi/intspan
 
@@ -39,11 +41,15 @@ Sets can be created from and displayed as integer spans such as
     intspan('1-3,14,29,92-97')
     [1, 2, 3, 14, 29, 92, 93, 94, 95, 96, 97]
 
-While they indicate the same values, the ``intspan`` is more compact.
-Even more important, it
-better divulges the contiguous nature of parts of the collection. It
-is easier for humans to quickly determine the "shape" of the collection
-and ascertain "what's missing?"
+Or worse, the unsorted, non-intuitive listings that crop up with Python's
+native unordered sets, such as::
+
+    set([96, 1, 2, 3, 97, 14, 93, 92, 29, 94, 95])
+
+While they all indicate the same values, ``intspan`` is more compact. And it
+better divulges the contiguous nature of segments of the collection, making it
+easier for humans to quickly determine the "shape" of the data and ascertain
+"what's missing?"
 
 When iterating, ``pop()``-ing an item, or converting to a list, ``intspan``
 behaves as if it were an ordered--in fact, sorted--collection. A key

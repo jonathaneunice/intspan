@@ -5,7 +5,10 @@ To install or upgrade to the latest version::
 
     pip install -U intspan
 
-To ``easy_install`` under a specific Python version (3.3 in this example)::
+On some systems, you may need to use ``pip2`` to install under Python 2,
+or ``pip3`` to install under Python 3.
+
+To ``easy_install`` under a specific Python version::
 
     python3.3 -m easy_install --upgrade intspan
 
@@ -18,10 +21,12 @@ than system-wide.)
 Testing
 -------
 
-If you wish to run the module tests locally, you'll need to install
+``intspan`` is tested twice before each release--once on the developer's workstation,
+and once by the Travis CI continuous integration service. If you'd like
+to also run the module tests locally, you'll need to install
 ``pytest`` and ``tox``.  For full testing, you will also need ``pytest-cov``
 and ``coverage``. Then run one of these commands::
 
-    tox                # normal run - speed optimized
-    tox -e py27        # run for a specific version only (e.g. py27, py34)
+    tox                # normal test run, across all currently-supported versions
+    tox -e py27        # run for a environment only (e.g. py27)
     tox -c toxcov.ini  # run full coverage tests

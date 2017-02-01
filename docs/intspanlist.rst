@@ -96,4 +96,3 @@ kwarg.
 
 The abstract "and the rest" markers are intended to make ``intspanlist``
 more convenient for specifying complex partial orderings.
-

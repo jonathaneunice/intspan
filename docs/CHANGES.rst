@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+**1.5.5**  (February 1, 2017)
+
+    Documentation upgrades.
+
+
 **1.5.4**  (January 31, 2017)
 
     Tested and certified for all early 2017 versions of Python
