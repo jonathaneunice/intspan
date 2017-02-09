@@ -14,14 +14,14 @@ def lines(text):
 
 setup(
     name='intspan',
-    version='1.5.5',
+    version='1.5.8',
     author='Jonathan Eunice',
     author_email='jonathan.eunice@gmail.com',
     description="Sets of integers like 1,3-7,33",
     long_description=open('README.rst', encoding='utf-8').read(),
     url='https://bitbucket.org/jeunice/intspan',
     license='Apache License 2.0',
-    py_modules=['intspan'],
+    packages=['intspan'],
     setup_requires=[],
     install_requires=[],
     tests_require=['tox', 'pytest', 'pytest-cov'],

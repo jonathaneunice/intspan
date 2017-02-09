@@ -4,7 +4,7 @@ import copy
 from itertools import groupby, count, chain
 import re
 
-__all__ = 'intspan spanlist intspanlist TheRest'.split()
+__all__ = 'intspan spanlist intspanlist TheRest ParseError'.split()
 
 _PY3 = sys.version_info[0] > 2
 if _PY3:

@@ -1,17 +1,11 @@
 
-| |travisci| |version| |downloads| |versions| |impls| |wheel| |coverage| |br-coverage|
+| |travisci| |version| |versions| |impls| |wheel| |coverage| |br-coverage|
 
 .. |travisci| image:: https://api.travis-ci.org/jonathaneunice/intspan.svg
     :target: http://travis-ci.org/jonathaneunice/intspan
 
 .. |version| image:: http://img.shields.io/pypi/v/intspan.svg?style=flat
     :alt: PyPI Package latest release
-    :target: https://pypi.python.org/pypi/intspan
-
-..
-    Download counts seem to periodically fail. In early 2017, not working
-    |downloads| image:: http://img.shields.io/pypi/dm/intspan.svg?style=flat
-    :alt: PyPI Package monthly downloads
     :target: https://pypi.python.org/pypi/intspan
 
 .. |versions| image:: https://img.shields.io/pypi/pyversions/intspan.svg

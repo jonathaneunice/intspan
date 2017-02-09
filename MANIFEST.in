@@ -3,6 +3,6 @@ include README.rst
 include pytest.ini
 include tox.ini
 include .travis.yml
-include CHANGES.rst
+include CHANGES.yml
 include intspan.py
 recursive-include test *.py
