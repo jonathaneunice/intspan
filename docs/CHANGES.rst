@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+**1.5.8**  (February 9, 2017)
+
+    Changed from module to package builds.
+
+
 **1.5.5**  (February 1, 2017)
 
     Documentation upgrades.

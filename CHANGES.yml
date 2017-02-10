@@ -1,9 +1,16 @@
 -
+    version: 1.5.8
+    date: February 9, 2017
+    notes: >
+        Changed from module to package builds.
+
+
+-
     version: 1.5.5
     date: February 1, 2017
     notes: >
         Documentation upgrades.
-
+        
 -
     version: 1.5.4
     date: Jan 31, 2017

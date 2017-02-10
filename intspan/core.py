@@ -23,7 +23,6 @@ class ParseError(ValueError):
 
 
 class Rester(object):
-
     """
     Singleton to represent "the rest of the values."
     """
