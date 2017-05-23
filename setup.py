@@ -14,7 +14,7 @@ def lines(text):
 
 setup(
     name='intspan',
-    version='1.5.8',
+    version='1.5.9',
     author='Jonathan Eunice',
     author_email='jonathan.eunice@gmail.com',
     description="Sets of integers like 1,3-7,33",

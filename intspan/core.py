@@ -58,6 +58,8 @@ def _parse_range(datum):
             if not m.group('stop'):
                 return [start]
             stop = int(m.group('stop'))
+            if start > stop:
+                raise ParseError('start value should exceed stop ({0})'.format(chunk))
             return list(range(start, stop + 1))
         else:
             raise ParseError("Can't parse chunk '{0}'".format(chunk))

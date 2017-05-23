@@ -23,6 +23,8 @@ def test_parse_error():
     with pytest.raises(ParseError):
         s = intspan('7*99')
     with pytest.raises(ParseError):
+        s = intspan('-4,5-4')
+    with pytest.raises(ParseError):
         s = intspan('1-4,5-')
 
 
