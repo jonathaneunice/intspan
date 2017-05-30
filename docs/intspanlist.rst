@@ -25,7 +25,7 @@ The intended use for this strictly-ordered version of ``intspan`` is to
 specify an ordering of elements. For example, a program might have 20 items,
 1-20. If you wanted to process item 7, then item 3, then "all the rest,"
 ``intspanlist('7,3,1-20')`` would be a convenient way to specify this. You
-could loop over that object in the desired order. (See below for a different
+could loop over that object in the desired order.(See below for a different
 formulation, ``intspanlist('7,3,*')``, in which the ``*`` is a symbolic "all
 the rest" marker, and the universe set can be specified either immediately
 or later.)

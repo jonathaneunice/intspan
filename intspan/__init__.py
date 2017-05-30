@@ -1,2 +1,3 @@
 from .core import *
-from .version import __version__
+
+__version__ = '1.5.10'

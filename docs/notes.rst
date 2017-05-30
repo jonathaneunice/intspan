@@ -38,8 +38,3 @@ Notes
   `@jeunice on Twitter <http://twitter.com/jeunice>`_
   welcomes your comments and suggestions.
 
-* If you find ``intspan`` useful, consider buying me a pint and a nice
-  salty pretzel.
-
-.. image:: https://img.shields.io/gratipay/jeunice.svg
-    :target: https://www.gittip.com/jeunice/

@@ -3,13 +3,14 @@ Usage
 
 ::
 
+    from __future__ import print_function  # Python 2 and 3 compatibility
     from intspan import intspan
 
     s = intspan('1-3,14,29,92-97')
     s.discard('2,13,92')
-    print s
-    print repr(s)
-    print list(s)
+    print(s)
+    print(repr(s))
+    print(list(s))
 
 yields::
 
@@ -20,7 +21,7 @@ yields::
 While::
 
     >>> for n in intspan('1-3,5'):
-    >>>     print n                 # Python 2
+    >>>     print(n)
     1
     2
     3
@@ -31,7 +32,7 @@ as they are in Python's ``set``. In addition, if you wish to extract the
 contiguous ranges::
 
     >>> for r in intspan('1-3,5,7-9,10,21-22,23,24').ranges():
-    >>>     print r                 # Python 2
+    >>>     print(r)
     (1, 3)
     (5, 5)
     (7, 10)

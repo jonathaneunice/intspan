@@ -2,14 +2,14 @@ Performance and Alternatives
 ============================
 
 ``intspan`` piggybacks Python's ``set`` type. ``inspanlist`` piggybacks
-``list``. So it stores every integer individually. Unlike Perl's
-``Set::IntSpan`` it is not optimized for long contiguous runs. For sets of
-several hundred or even many thousands of members, you will probably never
+``list``. So they both store every integer individually. Unlike Perl's
+``Set::IntSpan`` these types arenot optimized for long contiguous runs. For sets of
+several hundred or even thousands of members, you'll probably never
 notice the difference.
 
 But if you're doing extensive processing of large sets (e.g.
-with 100K, 1M, or more elements), or doing numeroius set operations on them
-(e.g. union, intersection), a data structure based on
+with 100K, 1M, or more elements), or doing numerous set operations on them
+(e.g. union or intersection), a data structure based on
 lists of ranges, `run length encoding
 <http://en.wikipedia.org/wiki/Run-length_encoding>`_, or `Judy arrays
 <http://en.wikipedia.org/wiki/Judy_array>`_ might perform and scale
@@ -17,11 +17,11 @@ better. Horses for courses.
 
 There are several modules you might want to consider as alternatives or
 supplements. AFAIK, none of them provide the convenient integer span
-specification that ``intspan`` does, but they have other virtues:
+specification ``intspan`` does, but they have other virtues:
 
 * `cowboy <http://pypi.python.org/pypi/cowboy>`_ provides
   generalized ranges and multi-ranges. Bonus points for the package
-  tagline: "It works on ranges
+  tagline: "It works on ranges"
 
 * `spans <https://pypi.python.org/pypi/Spans>`_ provides several different
   kinds of ranges and then sets for those ranges. Includes nice ``datetime``

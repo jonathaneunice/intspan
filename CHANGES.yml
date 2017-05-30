@@ -1,4 +1,13 @@
 -
+    version: 1.5.10
+    date: May 30, 2017
+    notes: >
+        Update Python version compatibility strategy. Now Python 3 centric.
+        More future-proofed.
+        
+        Updated testing matrix. Tweaked docs.
+
+-
     version: 1.5.8
     date: February 9, 2017
     notes: >

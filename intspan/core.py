@@ -6,8 +6,8 @@ import re
 
 __all__ = 'intspan spanlist intspanlist TheRest ParseError'.split()
 
-_PY3 = sys.version_info[0] > 2
-if _PY3:
+_PY2 = sys.version_info[0] == 2
+if not _PY2:
     basestring = str
 
 

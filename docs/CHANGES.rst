@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+**1.5.10**  (May 30, 2017)
+
+    Update Python version compatibility strategy. Now Python 3
+    centric. More future-proofed.
+
+    Updated testing matrix. Tweaked docs.
+
+
 **1.5.8**  (February 9, 2017)
 
     Changed from module to package builds.
