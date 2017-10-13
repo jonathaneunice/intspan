@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+**1.5.11**  (October 13, 2017)
+
+    Add pyproject.toml for PEP 508 conformance
+
+
 **1.5.10**  (May 30, 2017)
 
     Update Python version compatibility strategy. Now Python 3

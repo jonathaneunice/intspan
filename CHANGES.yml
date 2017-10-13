@@ -1,4 +1,8 @@
-
+-
+    version: 1.5.11
+    date: October 13, 2017
+    notes: >
+        Add pyproject.toml for PEP 508 conformance
 
 -
     version: 1.5.10
