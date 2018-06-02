@@ -1,6 +1,7 @@
 .hg*
 .tox/
 */__pycache__/*
+.pytest_cache/
 .cache/
 .idea/*
 .coverage
