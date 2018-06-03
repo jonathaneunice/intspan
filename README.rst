@@ -6,27 +6,27 @@
 
 .. |version| image:: http://img.shields.io/pypi/v/intspan.svg?style=flat
     :alt: PyPI Package latest release
-    :target: https://pypi.python.org/pypi/intspan
+    :target: https://pypi.org/project/intspan
 
 .. |versions| image:: https://img.shields.io/pypi/pyversions/intspan.svg
     :alt: Supported versions
-    :target: https://pypi.python.org/pypi/intspan
+    :target: https://pypi.org/project/intspan
 
 .. |impls| image:: https://img.shields.io/pypi/implementation/intspan.svg
     :alt: Supported implementations
-    :target: https://pypi.python.org/pypi/intspan
+    :target: https://pypi.org/project/intspan
 
 .. |wheel| image:: https://img.shields.io/pypi/wheel/intspan.svg
     :alt: Wheel packaging support
-    :target: https://pypi.python.org/pypi/intspan
+    :target: https://pypi.org/project/intspan
 
 .. |coverage| image:: https://img.shields.io/badge/test_coverage-100%25-6600CC.svg
     :alt: Test line coverage
-    :target: https://pypi.python.org/pypi/intspan
+    :target: https://pypi.org/project/intspan
 
 .. |br-coverage| image:: https://img.shields.io/badge/branch_coverage-100%25-6600CC.svg
     :alt: Test branch coverage
-    :target: https://pypi.python.org/pypi/intspan
+    :target: https://pypi.org/project/intspan
 
 ``intspan`` is a ``set`` subclass that conveniently represents sets of integers.
 Sets can be created from, and displayed as, integer spans such as
@@ -50,11 +50,6 @@ behaves as if it were an ordered--in fact, sorted--collection. A key
 implication is that, regardless of the order in which items are added,
 an ``intspan`` will always be rendered in the most compact, organized
 form possible.
-
-The main draw is having a convenient way to specify, manage, and see output in
-terms of ranges--for example, rows to process in a spreadsheet. It can also help
-you quickly identify or report which items were *not* successfully processed in
-a large dataset.
 
 The main draw is having a convenient way to specify, manage, and see output in
 terms of ranges--for example, rows to process in a spreadsheet. It can also help

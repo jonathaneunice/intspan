@@ -31,10 +31,10 @@ Notes
 
   Successfully packaged for, and
   tested against, all early 2017 versions of Python
-  including latest builds of 2.6, 2.7, 3.2, 3.3, 3.4, 3.5, and
-  3.6, as well as latest PyPy and PyPy3. Test line coverage 100%.
+  including latest builds of 2.6, 2.7, 3.2, 3.3, 3.4, 3.5,
+  3.6, and 3.7 pre-release as well as latest PyPy and PyPy3. Test line coverage 100%.
 
-* The author, `Jonathan Eunice <mailto:jonathan.eunice@gmail.com>`_ or
+* The author `Jonathan Eunice <mailto:jonathan.eunice@gmail.com>`_ or
   `@jeunice on Twitter <http://twitter.com/jeunice>`_
   welcomes your comments and suggestions.
 
