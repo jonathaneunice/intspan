@@ -29,7 +29,7 @@
     :target: https://pypi.python.org/pypi/intspan
 
 ``intspan`` is a ``set`` subclass that conveniently represents sets of integers.
-Sets can be created from, and displayedm as integer spans such as
+Sets can be created from, and displayed as, integer spans such as
 ``1-3,14,29,92-97`` rather than exhaustive member listings. Compare::
 
     intspan('1-3,14,29,92-97')

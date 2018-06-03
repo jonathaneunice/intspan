@@ -1,6 +1,18 @@
 Change Log
 ==========
 
+**1.5.13**  (June 3, 2018)
+
+    Documentation tweaks.
+
+
+**1.5.12**  (June 2, 2018)
+
+    Updated testing matrix. Now includes Python 3.7 pre-release.
+
+    Tox tests trimmed in favor of Travis CI.
+
+
 **1.5.11**  (October 13, 2017)
 
     Add pyproject.toml for PEP 508 conformance
@@ -60,7 +72,7 @@ Change Log
 **1.4.4**  (August 27, 2015)
 
     Improving documentation, especially around API details. Will
-    probably require a handful of incremental passes to get  the API
+    probably require a handful of incremental passes to get the API
     reference ship-shape.
 
 

@@ -5,17 +5,15 @@ To install or upgrade to the latest version::
 
     pip install -U intspan
 
-On some systems, you may need to use ``pip2`` to install under Python 2,
-or ``pip3`` to install under Python 3.
+On some systems, you may need to use ``pip2`` to install under Python 2, or
+``pip3`` to install under Python 3. You may also need to prefix these commands
+with ``sudo`` to authorize installation. In environments without super-user
+privileges, you may want to use ``pip``'s ``--user`` option, to install only
+for a single user, rather than system-wide. Finally, in cases where ``pip`` is
+not well-configured to match a specific Python interpreter you want to use, a
+useful fallback::
 
-To ``easy_install`` under a specific Python version::
-
-    python3.3 -m easy_install --upgrade intspan
-
-(You may need to prefix these with ``sudo`` to authorize
-installation. In environments without super-user privileges, you may want to
-use ``pip``'s ``--user`` option, to install only for a single user, rather
-than system-wide.)
+    python3.6 -m pip install -U intspan
 
 
 Testing
