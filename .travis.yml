@@ -8,9 +8,8 @@ python:
  - "3.5"
  - "3.6"
  - "3.7-dev"
- - "nightly"
  - "pypy"
- - "pypy3"
+ - "pypy3.5"
 install: 
  - python setup.py install 
 script: py.test --assert=plain

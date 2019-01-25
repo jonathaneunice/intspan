@@ -42,7 +42,7 @@ more verbose.
 Many other ``list`` methods are available to ``intspanlist``, especially
 including iteration. Note however that while ``intspan`` attempts to
 faithfully implement the complete methods of a Python ``set`` ,
-``intspanlist`` is a thiner shim over ``list``. It works well as an
+``intspanlist`` is a thinner shim over ``list``. It works well as an
 immutable type, but modifications such as ``pop``, ``insert``, and slicing
 are more problematic. ``append`` and ``extend`` work to maintain a
 "set-ish," no-repeats nature--by discarding any additions that are already
@@ -52,10 +52,10 @@ such promises.
 
 Indeed, it's not entirely clear what update behavior *should
 be*, given the use case. If a duplicate is appended or inserted somewhere,
-should an exception be raised? Should the code silent refuse to add items
+should an exception be raised? Should the code silently refuse to add items
 already seen? Or something else? Maybe even duplicates should be allowed?
 Silent denial is the current default, which is compatible with set behavior
-and ``intspan``; whether that's the "right" choice for a fully ordered
+and ``intspan``; whether that's the "right" or best choice for a fully ordered
 variant is unclear. (If you have thoughts on this or relevant use cases to
 discuss, open an issue on Bitbucket or ping the author.)
 
@@ -83,7 +83,7 @@ Whatever items are "left over" from the universe set are included wherever
 the asterisk appears. Like the rest of ``intspan`` and ``intspanlist``
 constructors, duplicates are inherently removed.
 
-If the universe is not given immeidately, you may later update the
+If the universe is not given immediately, you may later update the
 ``intspanlist`` with it::
 
     >>> i = intspanlist('1-4,*,8')

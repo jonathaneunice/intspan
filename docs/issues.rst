@@ -3,7 +3,8 @@ Performance and Alternatives
 
 ``intspan`` piggybacks Python's ``set`` type. ``inspanlist`` piggybacks
 ``list``. So they both store every integer individually. Unlike Perl's
-``Set::IntSpan`` these types arenot optimized for long contiguous runs. For sets of
+``Set::IntSpan`` these types are not optimized for long contiguous runs. 
+For sets of
 several hundred or even thousands of members, you'll probably never
 notice the difference.
 
@@ -20,7 +21,7 @@ supplements. AFAIK, none of them provide the convenient integer span
 specification ``intspan`` does, but they have other virtues:
 
 * `cowboy <http://pypi.python.org/pypi/cowboy>`_ provides
-  generalized ranges and multi-ranges. Bonus points for the package
+  generalized ranges and multi-ranges. Bonus points for the
   tagline: "It works on ranges"
 
 * `spans <https://pypi.python.org/pypi/Spans>`_ provides several different

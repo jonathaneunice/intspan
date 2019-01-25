@@ -5,6 +5,10 @@ In addition to the methods explicitly documented here,
 ``intspan`` attempts to implement the complete list of
 ``set`` methods.
 
-.. automodule:: intspan
+.. autoclass:: intspan.intspan
    :members:
-   :special-members:
+
+.. autoclass:: intspan.intspanlist
+   :members:
+
+.. autofunction:: intspan.spanlist

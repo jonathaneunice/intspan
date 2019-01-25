@@ -55,7 +55,7 @@ CHANGES.rst: ../CHANGES.yml
 	~/pytest/Util/ychanges/yaml2rst.py ../CHANGES.yml >CHANGES.rst
 
 html: CHANGES.rst
-	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
+	$(SPHINXBUILD) -E -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
 	open $(BUILDDIR)/html/index.html

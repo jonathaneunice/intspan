@@ -12,7 +12,7 @@ Notes
   including arguments that are technically string specifications rather than
   proper ``intspan`` objects.
 
-* A version of ``intspanlist`` that does not discard duplicates is under
+* A version of ``intspanlist`` that doesn't discard duplicates is under
   consideration.
 
 * String representation and ``ranges()`` method
@@ -30,9 +30,9 @@ Notes
   Packaging linting with `pyroma <https://pypi.python.org/pypi/pyroma>`_.
 
   Successfully packaged for, and
-  tested against, all early 2017 versions of Python
+  tested against, all current versions of Python
   including latest builds of 2.6, 2.7, 3.2, 3.3, 3.4, 3.5,
-  3.6, and 3.7 pre-release as well as latest PyPy and PyPy3. Test line coverage 100%.
+  3.6, and 3.7 as well as latest PyPy and PyPy3. Test line coverage 100%.
 
 * The author `Jonathan Eunice <mailto:jonathan.eunice@gmail.com>`_ or
   `@jeunice on Twitter <http://twitter.com/jeunice>`_

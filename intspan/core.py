@@ -75,7 +75,7 @@ def _parse_range(datum):
         return datum if hasattr(datum, '__iter__') else [datum]
 
 
-def spanlist(spec=None, chunkre=SPANRESTAR):
+def spanlist(spec=None):
     """
     Given a string specification like the ones given to ``intspan``,
     return a list of the included items, in the same item given. Thus,

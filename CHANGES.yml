@@ -1,4 +1,12 @@
 -
+    version: 1.5.15
+    date: January 25, 2019
+    notes: >
+        Documentation tweaked.
+
+        Dropped unused argument to ``spanlist()``.
+
+-
     version: 1.5.13
     date: June 3, 2018
     notes: >

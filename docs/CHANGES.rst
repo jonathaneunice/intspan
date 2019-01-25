@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+**1.5.15**  (January 25, 2019)
+
+    Documentation tweaked.
+
+    Dropped unused argument to ``spanlist()``.
+
+
 **1.5.13**  (June 3, 2018)
 
     Documentation tweaks.
