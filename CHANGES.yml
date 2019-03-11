@@ -1,4 +1,11 @@
 -
+    version: 1.6.0
+    date: March 11, 2019
+    notes: >
+        ``intspanlist`` extended with addition and subtraction operations,
+        as well as in-place and some right-associative forms of same.
+
+-
     version: 1.5.15
     date: January 25, 2019
     notes: >

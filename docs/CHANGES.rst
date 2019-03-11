@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+**1.6.0**  (March 11, 2019)
+
+    ``intspanlist`` extended with addition and subtraction operations,
+    as well as in-place and some right-associative forms of same.
+
+
 **1.5.15**  (January 25, 2019)
 
     Documentation tweaked.
