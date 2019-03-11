@@ -69,6 +69,54 @@ def test_lt_and_gt():
     assert t > s
 
 
+def test_add():
+    s = intspanlist('1,3,5')
+    orig_members = [1, 3, 5]
+    assert s + set([1, 3]) == s
+    assert s + [7, 8] == intspanlist('1,3,5,7-8')
+    assert s + intspan('7-8') == intspanlist('1,3,5,7-8')
+    assert s + intspanlist('7-8') == intspanlist('1,3,5,7-8')
+    assert list(s) == orig_members
+
+
+def test_sub():
+    s = intspanlist('1,3,5')
+    orig_members = [1, 3, 5]
+    assert s - set([1, 3]) == intspanlist('5')
+    assert s - [7, 8] == intspanlist('1,3,5')
+    assert s - [1, 7, 8] == intspanlist('3,5')
+    assert s - intspan('1-2') == intspanlist('3,5')
+    assert list(s) == orig_members
+
+
+def test_iadd():
+    s = intspanlist('1,3,5')
+    s += [6, 9]
+    assert s == intspanlist([1, 3, 5, 6, 9])
+    s += [6, 10]
+    assert s == intspanlist([1, 3, 5, 6, 9, 10])
+
+
+def test_isub():
+    s = intspanlist('1,3,5')
+    s -= [3, 5]
+    assert s == intspanlist('1')
+
+    s = intspanlist('6-7, 1-10')
+    s -= intspan('4-5,7,44')
+    assert s == intspanlist('6,1-3,8-10')
+
+
+def test_radd():
+    s = intspanlist('1,3,5')
+    assert [10,11] + s == intspanlist('10,11,1,3,5')
+
+def test_rsub():
+    s = intspanlist('1,3,5')
+    with pytest.raises(NotImplementedError):
+        [10,11] - s
+
+
 def test_copy():
     t = intspanlist('1,10,1-10')
     tt = t.copy()

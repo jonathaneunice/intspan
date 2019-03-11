@@ -1,8 +1,8 @@
 
-import sys
 import copy
-from itertools import groupby, count, chain
 import re
+import sys
+from itertools import chain, count, groupby
 
 __all__ = 'intspan spanlist intspanlist TheRest ParseError'.split()
 
@@ -19,6 +19,7 @@ SPANRESTAR = re.compile(
 
 
 class ParseError(ValueError):
+    """Exception raised if string specification can't be parsed."""
     pass
 
 
@@ -71,8 +72,8 @@ def _parse_range(datum):
             if chunk:
                 result.extend(parse_chunk(chunk))
         return result
-    else:
-        return datum if hasattr(datum, '__iter__') else [datum]
+
+    return datum if hasattr(datum, '__iter__') else [datum]
 
 
 def spanlist(spec=None):
@@ -110,8 +111,7 @@ def _as_range_str(iterable):
     l = list(iterable)
     if len(l) > 1:
         return '{0}-{1}'.format(l[0], l[-1])
-    else:
-        return '{0}'.format(l[0])
+    return '{0}'.format(l[0])
 
 
 def _noRestDiff(a, b):
@@ -128,11 +128,10 @@ def _noRestDiff(a, b):
                   # another span, not this current one"
 
 
-class intspan(set):
-
+class intspan(set):  # pylint: disable=invalid-name
     """
     A set of integers, expressed as an ordered sequence of spans.
-    Because ``intspan('1-3,14,29,92-97')`` is better than
+    Because ``intspan('1-3,14,29,92-97')`` is clearer than
     ``[1, 2, 3, 14, 29, 92, 93, 94, 95, 96, 97]``.
     """
 
@@ -249,7 +248,6 @@ class intspan(set):
         :returns: Arbitrary member of the set (which is removed)
         :rtype: int
         :raises KeyError: If the set is empty.
-
         """
         if self:
             min_item = min(self)
@@ -360,8 +358,7 @@ class intspan(set):
 # package seems to do some of this http://pythonhosted.org/ranger/
 
 
-class intspanlist(list):
-
+class intspanlist(list):  # pylint: disable=invalid-name
     """
     An ordered version of ``intspan``. Is to ``list`` what ``intspan``
     is to ``set``, except that it is somewhat set-like, in that items
@@ -442,6 +439,36 @@ class intspanlist(list):
 
     def __gt__(self, items):
         return super(intspanlist, self).__gt__(spanlist(items))
+
+    def __add__(self, other):
+        return intspanlist(list(self) + list(other))
+
+    def __sub__(self, other):
+        result = self[:]
+        for o in other:
+            try:
+                result.remove(o)
+            except ValueError:
+                pass
+        return result
+
+    def __iadd__(self, other):
+        self.extend(other)
+        return self
+
+    def __isub__(self, other):
+        for o in other:
+            try:
+                self.remove(o)
+            except ValueError:
+                pass
+        return self
+
+    def __radd__(self, other):
+        return intspanlist(list(other) + list(self))
+
+    def __rsub__(self, other):
+        raise NotImplementedError("operation doesn't make sense")
 
     def complement(self, low=None, high=None):
         """

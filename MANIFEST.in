@@ -2,7 +2,7 @@ include README
 include README.rst
 include pytest.ini
 include tox.ini
+include toxcov.ini
 include .travis.yml
 include CHANGES.yml
-include intspan.py
 recursive-include test *.py
