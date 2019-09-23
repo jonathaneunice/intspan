@@ -1,16 +1,13 @@
 language: python
-python: 
- - "2.6"   
- - "2.7" 
- - "3.2"
- - "3.3"
- - "3.4"
+python:
+ - "2.7"
  - "3.5"
  - "3.6"
- - "3.7-dev"
+ - "3.7"
+ - "3.8-dev"
  - "pypy"
- - "pypy3.5"
-install: 
- - python setup.py install 
-script: py.test --assert=plain
-
+ - "pypy3"
+install:
+ - python setup.py install
+script:
+ - pytest

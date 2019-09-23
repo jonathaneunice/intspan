@@ -1,4 +1,17 @@
 -
+    version: 1.6.1
+    date: September 23, 2019
+    notes: >
+        Extended testing matrix to pre-release Python 3.8.
+
+        Updated testing config via tox and Travis-CI to accomodate recent
+        bobbles in testing tools config requirements.
+
+        Withdrew support for ancient versions 2.6 and 3.2–3.4. While
+        should still work for those, they're way past their
+        sell-by dates. *Time to upgrade!*
+
+-
     version: 1.6.0
     date: March 11, 2019
     notes: >

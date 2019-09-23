@@ -34,6 +34,8 @@ Notes
   including latest builds of 2.6, 2.7, 3.2, 3.3, 3.4, 3.5,
   3.6, and 3.7 as well as latest PyPy and PyPy3. Test line coverage 100%.
 
+* The 1.6.x lineage is the last to support Python < 3.6. 
+
 * The author `Jonathan Eunice <mailto:jonathan.eunice@gmail.com>`_ or
   `@jeunice on Twitter <http://twitter.com/jeunice>`_
   welcomes your comments and suggestions.

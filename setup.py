@@ -14,7 +14,7 @@ def lines(text):
 
 setup(
     name='intspan',
-    version='1.6.0',
+    version='1.6.1',
     author='Jonathan Eunice',
     author_email='jonathan.eunice@gmail.com',
     description="Sets of integers like 1,3-7,33",
@@ -35,20 +35,19 @@ setup(
         Intended Audience :: Developers
         Programming Language :: Python
         Programming Language :: Python :: 2
-        Programming Language :: Python :: 2.6
         Programming Language :: Python :: 2.7
         Programming Language :: Python :: 3
-        Programming Language :: Python :: 3.2
-        Programming Language :: Python :: 3.3
-        Programming Language :: Python :: 3.4
         Programming Language :: Python :: 3.5
         Programming Language :: Python :: 3.6
         Programming Language :: Python :: 3.7
+        Programming Language :: Python :: 3.8
         Programming Language :: Python :: Implementation :: CPython
         Programming Language :: Python :: Implementation :: PyPy
         Topic :: Software Development :: Libraries :: Python Modules
     """),
     project_urls = {
-        'documentation': 'https://intspan.readthedocs.io/en/latest/'
-    }
+        'Documentation': 'https://intspan.readthedocs.io/en/latest/',
+        'Source': 'https://bitbucket.org/jeunice/intspan',
+        'The Author': 'https://jonathaneunice.github.io'
+    },
 )
